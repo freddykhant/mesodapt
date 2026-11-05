@@ -16,11 +16,11 @@ function Section({ title, description, children }: { title: string; description:
   );
 }
 
-function Field({ label, value }: { label: string; value: string }) {
+function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex items-center justify-between gap-6 px-5 py-4">
       <span className="text-list text-fg">{label}</span>
-      <span className="min-w-0 truncate text-body text-fg-muted">{value}</span>
+      <span className="min-w-0 truncate text-body text-fg-muted">{children}</span>
     </div>
   );
 }
@@ -30,13 +30,13 @@ export default async function SettingsPage() {
   const user = session?.user;
   return (
     <div className="flex flex-col gap-8">
-      <PageHeader title="Settings" description="Your account, and how your training week is laid out." />
+      <PageHeader title="Settings" description="Your account, and the standing week Mesodapt plans around." />
 
       <div className="flex animate-rise flex-col gap-8 [animation-delay:60ms]">
-        <Section title="Account" description="You sign in with Google.">
+        <Section title="Account" description="You sign in with Google. It shares your basic profile and email, nothing else.">
           <Panel padding="none">
             <div className="flex items-center gap-3.5 px-5 py-4">
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-aura text-card-title text-fg-soft">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-pill bg-aura text-card-title text-fg-soft">
                 {user?.name.slice(0, 1).toUpperCase()}
               </span>
               <div className="min-w-0">
@@ -44,15 +44,30 @@ export default async function SettingsPage() {
                 <div className="truncate text-card-desc text-fg-muted">{user?.email}</div>
               </div>
             </div>
-            <div className="border-t border-border-subtle">
-              <Field label="Sign-in" value="Google" />
+            <div className="divide-y divide-border-subtle border-t border-border-subtle">
+              <Field label="Sign-in">Google</Field>
+              <div className="px-5 py-4">
+                <div className="text-list text-fg">Deleting your account</div>
+                <p className="mt-0.5 text-card-desc text-fg-muted">
+                  There&apos;s no button for it yet. Email me at{" "}
+                  <a
+                    href="mailto:freddyhmk@gmail.com"
+                    // Links read as they do on the privacy page, the one pink on this screen.
+                    className="text-accent underline-offset-2 hover:underline"
+                  >
+                    freddyhmk@gmail.com
+                  </a>{" "}
+                  from this address and I&apos;ll delete it, along with your profile, plan, logs, check-ins and
+                  coach-box messages.
+                </p>
+              </div>
             </div>
           </Panel>
         </Section>
 
         <Section
           title="Training week"
-          description="How the board lays out your sessions, and when you like to train."
+          description="How your week board is laid out, and when you can train."
         >
           <SchedulePrefsForm />
         </Section>

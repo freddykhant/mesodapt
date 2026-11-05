@@ -92,8 +92,8 @@ function PrefsFormBody({ initial }: { initial: LoadedPrefs }) {
           <div className="px-5 py-4">
             <div className="text-list text-fg">Availability</div>
             <div className="mt-0.5 text-card-desc text-fg-muted">
-              Tap a slot to cycle Available, Preferred and Blocked. Suggestions favour preferred slots and avoid
-              blocked ones.
+              Tap a slot to cycle Available, Preferred and Blocked. When Mesodapt suggests a move it tries your
+              preferred slots first, and it never puts a session on blocked time.
             </div>
             <div className="mt-4">
               <AvailabilityGrid
@@ -107,15 +107,15 @@ function PrefsFormBody({ initial }: { initial: LoadedPrefs }) {
               />
             </div>
           </div>
-          <Row title="Timezone" hint="Days and dates on your board follow this.">
-            <span className="text-body text-fg-muted">{initial.timezone}</span>
+          <Row title="Timezone" hint="Taken from your browser. Days and dates on your board follow it.">
+            <span className="text-body text-fg-muted tabular-nums">{initial.timezone}</span>
           </Row>
         </div>
       </Panel>
 
       <p className="px-1 text-meta text-fg-muted">
-        Changing this never moves a session on its own. If a session ends up on blocked time, your coach suggests
-        a move.
+        Saving here never moves a session to another day. If one ends up on blocked time, your week board offers ways to move it
+        and waits for you to pick one.
       </p>
 
       {update.isError ? (

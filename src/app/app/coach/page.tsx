@@ -13,14 +13,15 @@ export default function CoachStub() {
       <div className="animate-rise [animation-delay:60ms]">
         <EmptyState
           icon={MessageSquare}
-          title="Coming soon"
+          title="Your coach history isn’t here yet"
           action={
-            <ButtonLink href="/app/block" variant="secondary">
+            <ButtonLink href="/app/block" variant="secondary" size="sm">
               Open your block
             </ButtonLink>
           }
         >
-          A full coach history is on its way. For now, ask your coach from a week in your block.
+          I keep every message you send the coach, but I haven’t built the page to read them back
+          yet. For now the coach sits at the top of each week in your block.
         </EmptyState>
       </div>
     </div>

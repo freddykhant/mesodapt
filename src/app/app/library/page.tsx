@@ -11,8 +11,9 @@ export default function LibraryStub() {
         description="The exercises and splits your plans are built from."
       />
       <div className="animate-rise [animation-delay:60ms]">
-        <EmptyState icon={Library} title="Coming soon">
-          The library is on its way. Your block already draws on it behind the scenes.
+        <EmptyState icon={Library} title="Nothing to browse here yet">
+          Your block already picks from the exercise library, where each lift is tagged with the
+          muscles it trains. I haven’t built the page to browse it yet.
         </EmptyState>
       </div>
     </div>

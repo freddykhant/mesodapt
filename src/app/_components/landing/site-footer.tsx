@@ -30,7 +30,7 @@ export function SiteFooter() {
           </div>
           <Column title="Product">
             <FooterLink href="/#story">How it adapts</FooterLink>
-            <FooterLink href="/#week">A normal week</FooterLink>
+            <FooterLink href="/#week">What it does</FooterLink>
             <FooterLink href="/#intelligence">How it thinks</FooterLink>
             <FooterLink href="/">Sign in</FooterLink>
             <FooterLink href="/blog">Blog</FooterLink>

@@ -19,7 +19,7 @@ export function TopBar() {
         </Link>
         <nav aria-label="Page" className="flex items-center gap-6">
           <a href="#week" className="hidden text-nav text-fg-muted transition-colors hover:text-fg sm:inline">
-            A normal week
+            What it does
           </a>
           <a href="#intelligence" className="hidden text-nav text-fg-muted transition-colors hover:text-fg sm:inline">
             How it thinks

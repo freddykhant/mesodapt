@@ -3,7 +3,8 @@ import type { ReadinessLabel, SessionView } from "~/views/types";
 import { ButtonLink, Chip, Panel } from "~/components/ui-kit/app-shell-kit";
 import { SessionSwapControl } from "~/components/home/session-swap-control";
 
-/** The Now page's hero: the one session to do next, with the page's single ink action. */
+/** The Now page's hero: the one session to do next, with the page's one sky primary. Its pink
+ * eyebrow is the screen's one live signal. */
 export function NextSessionCard({
   session,
   weekIndex,
@@ -16,12 +17,13 @@ export function NextSessionCard({
   if (!session) {
     return (
       <Panel padding="none" className="flex items-center gap-4 p-6 md:p-8">
-        <span className="bg-aura flex size-11 shrink-0 items-center justify-center rounded-pill text-fg-soft">
+        <span className="bg-aura flex size-10 shrink-0 items-center justify-center rounded-control text-fg-soft">
           <Moon className="size-5" aria-hidden />
         </span>
         <div className="min-w-0">
           <div className="text-eyebrow font-medium text-fg-subtle">Next session</div>
-          <div className="mt-1 text-card-title text-fg">Nothing on deck — recovery is training too.</div>
+          <div className="mt-1 text-card-title text-fg">Nothing left to train this week</div>
+          <div className="mt-0.5 text-card-desc text-fg-muted">Every session this week is done or missed. Rest days count too.</div>
         </div>
       </Panel>
     );

@@ -44,7 +44,7 @@ const CELLS: {
     points: [
       [MessageCircle, "Agentic through your words"],
       [HelpCircle, "Ask questions, check in, and converse"],
-      [ShieldCheck, "Only sees your week, never your personal data"],
+      [ShieldCheck, "Only sees your week, with no personal data"],
     ],
     demo: <ReadsYouDemo />,
   },
@@ -85,7 +85,7 @@ const CELLS: {
         Every number <Em>comes with a reason</Em>
       </>
     ),
-    body: "An extremely robust training and recovery algorithm working with agentic AI creates powerful training plans taking all the guesswork away from you, so you can focus on training.",
+    body: "A rock-solid training and recovery algorithm working with agentic AI creates powerful training plans taking all the guesswork away from you, so you can focus on training.",
     points: [
       [FileText, "Every change is saved with its reason"],
       [Repeat, "Same week in, same plan out"],

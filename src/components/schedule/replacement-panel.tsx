@@ -2,14 +2,15 @@
 
 import { useState } from "react";
 import { RescheduleDialog } from "~/components/block/reschedule-dialog";
-import { Button, Panel } from "~/components/ui-kit/app-shell-kit";
+import { Button } from "~/components/ui-kit/app-shell-kit";
 import { api } from "~/trpc/react";
 import type { ReplacementOptionView } from "~/views/schedule";
 
 /** Ways to re-arrange a week in which a session is standing on blocked time. Renders
  * nothing when the engine has no options, and one line while the first ones for a
  * stranded week are on their way. Every change is the athlete's tap: an option
- * is applied on Accept, and a skip goes through the missed-session dialog first. */
+ * is applied on Accept, and a skip goes through the missed-session dialog first.
+ * Floats over the board on its dock; only the lead option's Accept is pink. */
 export function ReplacementPanel({
   weekIndex,
   disabled,
@@ -46,22 +47,26 @@ export function ReplacementPanel({
   );
   if (options.length === 0 && stranded && query.isFetching) {
     return (
-      <p className="text-card-desc text-fg-muted" role="status">
+      <p
+        className="animate-fade self-end rounded-pill border border-border bg-surface-raised px-4 py-2 text-card-desc text-fg-muted shadow-pop"
+        role="status"
+      >
         Working out how the week could go…
       </p>
     );
   }
   if (options.length === 0 || dismissed === signature) return null;
+  // One pink confirm per card: the coach's pick, or the first option when none leads.
+  const leadId = (options.find((o) => o.lead) ?? options[0])!.id;
 
   return (
-    <Panel
-      padding="md"
-      className="animate-rise flex flex-col gap-4"
+    <div
+      className="animate-rise flex flex-col gap-4 rounded-card border border-border bg-surface-raised p-4 shadow-pop"
       role="region"
       aria-label="Ways to re-arrange this week"
     >
       <div>
-        <div className="text-eyebrow font-medium text-accent">
+        <div className="text-eyebrow font-medium text-fg-subtle">
           A session is on time you&rsquo;ve blocked
         </div>
         <div className="mt-1 text-card-title text-fg">
@@ -70,7 +75,7 @@ export function ReplacementPanel({
             : "Here are a few ways the week could go."}
         </div>
       </div>
-      <ul className="flex flex-col gap-2">
+      <ul className="-mr-1 flex max-h-[min(300px,36vh)] flex-col gap-2 overflow-y-auto pr-1">
         {options.map((o) => (
           <li
             key={o.id}
@@ -79,7 +84,7 @@ export function ReplacementPanel({
             <div className="flex items-baseline justify-between gap-3">
               <span className="text-list text-fg">{o.title}</span>
               {o.lead ? (
-                <span className="text-meta font-medium text-accent">
+                <span className="text-meta font-medium text-fg-soft">
                   {o.judged ? "Coach’s pick" : "Suggested"}
                 </span>
               ) : null}
@@ -110,7 +115,7 @@ export function ReplacementPanel({
                 </Button>
               ) : (
                 <Button
-                  variant="accent"
+                  variant={o.id === leadId ? "accent" : "secondary"}
                   size="sm"
                   aria-label={`Accept: ${o.title}`}
                   disabled={disabled || query.isFetching}
@@ -154,6 +159,6 @@ export function ReplacementPanel({
           }}
         />
       ) : null}
-    </Panel>
+    </div>
   );
 }

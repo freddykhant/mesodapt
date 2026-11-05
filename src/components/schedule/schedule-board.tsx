@@ -136,7 +136,7 @@ function Note({ children }: { children: React.ReactNode }) {
   );
 }
 
-const LINK = "font-medium text-accent transition-colors hover:text-accent-strong";
+const LINK = "font-medium text-ink transition-colors hover:text-ink-hover";
 
 function Cell({
   placement,
@@ -227,7 +227,18 @@ export function ScheduleBoard({ weekIndex }: { weekIndex: number }) {
   const [coachBusy, setCoachBusy] = useState(false);
   const [notice, setNotice] = useState<Notice | null>(null);
   const [dismissedOptions, setDismissedOptions] = useState<string | null>(null);
+  // Sessions the last saved change put on a new day or slot. They hop there and keep the
+  // pink ring until the next change; previews in a draft never land here.
+  const [moved, setMoved] = useState<string[]>([]);
   const tzSynced = useRef(false);
+
+  /** Runs a refetch of the saved week and marks whatever it moved. */
+  async function settle(refetch: () => Promise<unknown>) {
+    const before = utils.schedule.getWeekSchedule.getData({ weekIndex })?.layout;
+    await refetch();
+    const after = utils.schedule.getWeekSchedule.getData({ weekIndex })?.layout;
+    setMoved(before && after ? changedIds(before, after) : []);
+  }
 
   const refresh = () => {
     void utils.schedule.invalidate();
@@ -240,7 +251,7 @@ export function ScheduleBoard({ weekIndex }: { weekIndex: number }) {
     // React Query awaits this before the mutation settles, so the board stays
     // non-editable until the fresh layout is in: no flicker back to the old cells.
     onSuccess: async (res) => {
-      await utils.schedule.invalidate();
+      await settle(() => utils.schedule.invalidate());
       router.refresh();
       setDraft(null);
       setCarryForward(false);
@@ -260,7 +271,7 @@ export function ScheduleBoard({ weekIndex }: { weekIndex: number }) {
   // Only the week itself is awaited: the options query may wait on the coach's verdict,
   // and the board should not stay locked for that.
   const onExceptionChange = async () => {
-    await utils.schedule.getWeekSchedule.invalidate();
+    await settle(() => utils.schedule.getWeekSchedule.invalidate());
     void utils.schedule.getReplacementOptions.invalidate();
     void utils.schedule.getSuggestions.invalidate();
     router.refresh();
@@ -391,6 +402,7 @@ export function ScheduleBoard({ weekIndex }: { weekIndex: number }) {
   }
 
   function startOrUpdateDraft(next: Layout) {
+    setMoved([]);
     setDraft(
       changedIds(base, next).length === 0
         ? null
@@ -506,6 +518,8 @@ export function ScheduleBoard({ weekIndex }: { weekIndex: number }) {
         session={session}
         editable={editable}
         changed={changed.includes(id)}
+        moved={draft === null && moved.includes(id)}
+        drafting={draft !== null}
         moveOptions={editable && !session.locked ? moveOptionsFor(id) : []}
         onMove={(target) => move(id, target)}
         onCantMake={
@@ -556,7 +570,7 @@ export function ScheduleBoard({ weekIndex }: { weekIndex: number }) {
                   <span className="flex items-center gap-1">
                     <span
                       className={
-                        "text-list " + (isToday ? "text-accent" : "text-fg")
+                        "text-list " + (isToday ? "text-sky-strong" : "text-fg")
                       }
                     >
                       {DAY_NAMES[d.weekday]}
@@ -595,7 +609,7 @@ export function ScheduleBoard({ weekIndex }: { weekIndex: number }) {
                     className={
                       "absolute top-[19px] left-0 size-2.5 rounded-full " +
                       (isToday
-                        ? "bg-accent ring-4 ring-selection"
+                        ? "bg-sky ring-4 ring-sky/15"
                         : "bg-border-strong")
                     }
                   />
@@ -712,34 +726,8 @@ export function ScheduleBoard({ weekIndex }: { weekIndex: number }) {
         </Note>
       ) : null}
 
-      {draft ? (
-        <DraftBar
-          changeCount={changed.length}
-          warnings={warnings}
-          carryForward={carryForward}
-          onCarryForward={setCarryForward}
-          onDiscard={() => {
-            setDraft(null);
-            apply.reset();
-          }}
-          onConfirm={() => confirm(layout, "athlete")}
-          stale={stale}
-          pending={apply.isPending}
-          error={apply.isError ? apply.error.message : null}
-        />
-      ) : (
+      {draft ? null : (
         <>
-          {!data.readOnly ? (
-            <ReplacementPanel
-              weekIndex={weekIndex}
-              disabled={!editable}
-              stranded={isStranded(data.input)}
-              dismissed={dismissedOptions}
-              onDismiss={setDismissedOptions}
-              onAccept={acceptOption}
-              onShow={showOption}
-            />
-          ) : null}
           {warnings.length > 0 ? (
             <ul
               aria-label="Recovery notes"
@@ -759,16 +747,55 @@ export function ScheduleBoard({ weekIndex }: { weekIndex: number }) {
               ))}
             </ul>
           ) : null}
-          {!data.readOnly ? (
-            <SuggestionCard
-              weekIndex={weekIndex}
-              pending={apply.isPending}
-              onAccept={accept}
-            />
-          ) : null}
           {apply.isError ? <Note>{apply.error.message}</Note> : null}
         </>
       )}
+
+      {/* Unsaved changes ride a compact save bar pinned to the bottom of the screen, under a
+          dragged chip (z-20) so a drag can still reach the cells it covers. The taller option and
+          suggestion cards sit after the board instead of over it, so they never hide a session,
+          and only one asks at a time: while the week is stranded, the options come first. */}
+      <div
+        className={
+          "z-10 flex w-full flex-col gap-2 empty:hidden " + (draft ? "sticky bottom-4" : "")
+        }
+      >
+        {draft ? (
+          <DraftBar
+            changeCount={changed.length}
+            warnings={warnings}
+            carryForward={carryForward}
+            onCarryForward={setCarryForward}
+            onDiscard={() => {
+              setDraft(null);
+              apply.reset();
+            }}
+            onConfirm={() => confirm(layout, "athlete")}
+            stale={stale}
+            pending={apply.isPending}
+            error={apply.isError ? apply.error.message : null}
+          />
+        ) : !data.readOnly ? (
+          <>
+            <ReplacementPanel
+              weekIndex={weekIndex}
+              disabled={!editable}
+              stranded={isStranded(data.input)}
+              dismissed={dismissedOptions}
+              onDismiss={setDismissedOptions}
+              onAccept={acceptOption}
+              onShow={showOption}
+            />
+            {isStranded(data.input) ? null : (
+              <SuggestionCard
+                weekIndex={weekIndex}
+                pending={apply.isPending}
+                onAccept={accept}
+              />
+            )}
+          </>
+        ) : null}
+      </div>
     </section>
   );
 }

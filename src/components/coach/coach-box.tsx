@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { ArrowUp } from "lucide-react";
-import { IconButton } from "~/components/ui-kit/app-shell-kit";
 import { RescheduleDialog } from "~/components/block/reschedule-dialog";
+import { IconButton } from "~/components/ui-kit/app-shell-kit";
 import { COACH_MAX_TEXT } from "~/schema";
 import { api } from "~/trpc/react";
 import type { CoachFinalReply, CoachReply } from "~/views/coach";
@@ -102,7 +102,11 @@ export function CoachBox({
   return (
     <div className="flex flex-col gap-3">
       <form
-        className="flex items-center gap-1 rounded-pill bg-sunken p-1 pl-4 transition-colors focus-within:bg-surface-raised focus-within:shadow-control"
+        className={
+          "flex h-11 items-center gap-2 rounded-pill border bg-surface-raised pr-1.5 pl-4 shadow-control transition-colors " +
+          // The prism edge marks the model at work: it shows only while the message is being read.
+          (interpret.isPending ? "border-prism" : "border-border focus-within:border-border-strong")
+        }
         onSubmit={(e) => {
           e.preventDefault();
           send();
@@ -126,10 +130,10 @@ export function CoachBox({
         />
         <IconButton
           type="submit"
+          variant="primary"
           icon={ArrowUp}
           aria-label={interpret.isPending ? "Thinking…" : "Send"}
           disabled={pending || text.trim() === ""}
-          className="bg-ink! text-on-ink! hover:bg-ink-hover! hover:text-on-ink!"
         />
       </form>
       <div role="status" className="flex flex-col gap-3">

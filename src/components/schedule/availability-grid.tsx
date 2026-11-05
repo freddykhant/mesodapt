@@ -53,7 +53,8 @@ function Slot({
       ) : state === "BLOCKED" ? (
         <Ban className="size-3.5 shrink-0" aria-hidden />
       ) : null}
-      <span className="truncate">{STATE_LABEL[state]}</span>
+      {/* Two slots a row leave no room for the word on a phone; the icon and aria-label carry it there. */}
+      <span className={"truncate" + (daypart ? " max-sm:hidden" : "")}>{STATE_LABEL[state]}</span>
     </button>
   );
 }

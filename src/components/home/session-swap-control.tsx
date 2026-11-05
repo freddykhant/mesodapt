@@ -40,7 +40,7 @@ export function SessionSwapControl({
       >
         <span className="inline-flex min-w-0 items-center gap-2">
           <Check className="size-4 shrink-0 text-fg-subtle" aria-hidden />
-          <span>Swapped to {chosen.label} — still right on plan.</span>
+          <span>Swapped to {chosen.label}, still on plan.</span>
         </span>
         <button
           ref={undoRef}
@@ -87,7 +87,7 @@ export function SessionSwapControl({
           >
             <span className="text-list text-fg">{opt.label}</span>
             <span className="text-card-desc text-fg-muted tabular-nums">
-              {hint ? "Fatigue high — consider easier · " : ""}
+              {hint ? "Fatigue is high, so this may suit today · " : ""}
               {opt.summary}
             </span>
           </button>

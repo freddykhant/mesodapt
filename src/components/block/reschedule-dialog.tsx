@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import { Button, Skeleton } from "~/components/ui-kit/app-shell-kit";
@@ -69,9 +70,11 @@ export function RescheduleDialog({
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
 
-  return (
+  // Portalled to the body: the dialog is opened from cards that float on a sticky,
+  // animated dock, and a fixed overlay must not be clipped to that card's box.
+  return createPortal(
     <div
       className="fixed inset-0 z-50 grid place-items-center bg-scrim p-4 backdrop-blur-[2px] animate-fade"
       onClick={(e) => {
@@ -96,7 +99,7 @@ export function RescheduleDialog({
           </Button>
         </div>
         <p id="reschedule-desc" className="mt-1.5 text-card-desc text-fg-muted">
-          Here’s how we can recover the volume — your call.
+          Each option shows the sets it saves and the sets it drops. Pick one and the week updates.
         </p>
 
         <div className="mt-5 flex flex-col gap-2.5">
@@ -156,6 +159,7 @@ export function RescheduleDialog({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

@@ -10,7 +10,8 @@ export const READINESS_DOT: Record<ReadinessLabel, string> = {
   Productive: "bg-zone-building",
   Fatigued: "bg-zone-rest",
   Overreaching: "bg-zone-max",
-  Building: "bg-fg-muted",
+  // Not enough logged load yet: a hollow ring, so "no reading" never looks like a reading.
+  Building: "border-[1.5px] border-fg-muted bg-transparent",
 };
 
 export function ReadinessChip({ readiness }: { readiness: ReadinessView }) {

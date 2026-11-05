@@ -1,9 +1,9 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
-import { Panel } from "~/components/ui-kit/app-shell-kit";
+import { Panel } from "./panel";
 
-/** Calm empty state on a Panel: aura icon tile, one title, one line, an optional action.
- *  Candidate for the kit (shared by Now, Readiness, Coach and Library). */
+/** Empty state on a Panel (DESIGN.md → Loading & empty states): 40px aura tile, one title, one line, an optional action.
+ *  Centre this one block only. */
 export function EmptyState({
   icon: Icon,
   title,
@@ -25,12 +25,12 @@ export function EmptyState({
       padding="none"
       className="flex flex-col items-center px-6 py-12 text-center md:py-16"
     >
-      <span className="bg-aura flex size-12 items-center justify-center rounded-pill text-fg-soft">
+      <span className="bg-aura flex size-10 items-center justify-center rounded-control text-fg-soft">
         <Icon className="size-5" aria-hidden />
       </span>
-      <h2 className="mt-5 text-card-title text-fg">{title}</h2>
-      {children ? <p className="mt-1.5 max-w-sm text-card-desc text-fg-muted">{children}</p> : null}
-      {action ? <div className="mt-6">{action}</div> : null}
+      <h2 className="mt-4 text-card-title text-fg">{title}</h2>
+      {children ? <p className="mt-1 max-w-[44ch] text-card-desc text-pretty text-fg-muted">{children}</p> : null}
+      {action ? <div className="mt-5">{action}</div> : null}
     </Panel>
   );
 }

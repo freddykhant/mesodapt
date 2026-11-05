@@ -16,7 +16,8 @@ function humanMuscle(m: string): string {
   return m.charAt(0) + m.slice(1).toLowerCase().replace(/_/g, " ");
 }
 
-/** A 0-3 selector. dot fill communicates intensity; accent marks the choice. */
+/** A 0-3 selector drawn like Segmented: a sunken pill track with a raised white thumb on
+ * the choice. Neutral on purpose: a row of pink picks would spend the One Signal on input. */
 function Scale({
   value,
   onChange,
@@ -29,7 +30,7 @@ function Scale({
   ariaLabel: string;
 }) {
   return (
-    <div role="group" aria-label={ariaLabel} className="flex gap-1.5">
+    <div role="group" aria-label={ariaLabel} className="inline-flex gap-0.5 rounded-pill bg-sunken p-0.5">
       {labels.map((label, i) => (
         <button
           key={i}
@@ -38,10 +39,10 @@ function Scale({
           title={label}
           onClick={() => onChange(i)}
           className={
-            "size-9 rounded-control border text-nav font-medium tabular-nums transition-colors duration-200 " +
+            "h-8 min-w-10 rounded-pill border px-3 text-nav font-medium tabular-nums transition-[background-color,border-color,color,box-shadow] duration-200 " +
             (value === i
-              ? "border-accent bg-selection text-accent"
-              : "border-transparent bg-sunken text-fg-muted hover:bg-press hover:text-fg")
+              ? "border-border-strong bg-surface-raised font-semibold text-fg shadow-control"
+              : "border-transparent text-fg-muted hover:bg-hover hover:text-fg")
           }
         >
           {i}
@@ -72,20 +73,26 @@ export function WeeklyCheckInGrid({
         {muscles.map((m) => (
           <div key={m.muscle} className="py-4 first:pt-0">
             <div className="text-card-title text-fg">{humanMuscle(m.muscle)}</div>
+            {/* Divs, not labels: a label forwards a click on its text to the first button inside, which
+                quietly set the score to 0. Each group carries its own aria-label. */}
             <div className="mt-2.5 flex flex-wrap items-center gap-x-6 gap-y-3">
-              <label className="flex flex-col gap-1.5">
-                <span className="text-meta font-medium text-fg-muted">Recovery</span>
+              <div className="flex flex-col gap-1.5">
+                <span className="text-meta font-medium text-fg-muted">
+                  Recovery <span className="font-normal text-fg-soft">· {RECOVERY_LABELS[m.recovery]}</span>
+                </span>
                 <Scale value={m.recovery} onChange={(v) => set(m.muscle, "recovery", v)} labels={RECOVERY_LABELS} ariaLabel={`${humanMuscle(m.muscle)} recovery`} />
-              </label>
-              <label className="flex flex-col gap-1.5">
-                <span className="text-meta font-medium text-fg-muted">Joints</span>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <span className="text-meta font-medium text-fg-muted">
+                  Joints <span className="font-normal text-fg-soft">· {JOINT_LABELS[m.joint]}</span>
+                </span>
                 <Scale value={m.joint} onChange={(v) => set(m.muscle, "joint", v)} labels={JOINT_LABELS} ariaLabel={`${humanMuscle(m.muscle)} joint stress`} />
-              </label>
+              </div>
             </div>
           </div>
         ))}
       </div>
-      <Button variant="accent" size="lg" loading={isPending} onClick={onSubmit} className="w-full">
+      <Button variant="primary" size="lg" loading={isPending} onClick={onSubmit} className="w-full">
         {isPending ? "Reading your week…" : "See next week's plan"}
       </Button>
     </div>

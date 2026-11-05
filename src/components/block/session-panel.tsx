@@ -170,7 +170,7 @@ export function SessionPanel({ session }: { session: SessionView }) {
 
       {editing ? (
         <div className="mt-4 flex flex-col gap-5">
-          {draftRestored && <PanelNote role="status">Picked up where you left off — your typed sets were saved.</PanelNote>}
+          {draftRestored && <PanelNote role="status">Picked up where you left off. The sets you typed were kept.</PanelNote>}
           {session.prescriptions.map((p, pi) => (
             <LogRows key={`${p.exerciseName}-${pi}`} p={p} rows={rows[pi]!} pi={pi} onCell={setCell} onFill={() => fillDown(pi)} />
           ))}

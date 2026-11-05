@@ -2,6 +2,7 @@
 
 import { useDraggable } from "@dnd-kit/core";
 import { CalendarX, Check, ChevronDown, GripVertical } from "lucide-react";
+import { useFlip } from "~/components/ui-kit/app-shell-kit";
 import type { Placement } from "~/engine/schedule";
 import type { ScheduleSessionView } from "~/views/schedule";
 import { parseCellId } from "./draft";
@@ -12,18 +13,27 @@ export interface MoveOption {
 }
 
 /** One session on the board. Pointer and touch users drag the top half; keyboard and
- * screen-reader users use the "Move to…" menu, which offers the same legal targets. */
+ * screen-reader users use the "Move to…" menu, which offers the same legal targets.
+ * A saved move hops the chip from its old cell to its new one (useFlip) and leaves it
+ * wearing the pink ring; an unsaved draft move only pencils it in with a dashed edge. */
 export function SessionChip({
   session,
   editable,
   changed,
+  moved = false,
+  drafting = false,
   moveOptions,
   onMove,
   onCantMake,
 }: {
   session: ScheduleSessionView;
   editable: boolean;
+  /** Placed differently in the open draft than in the saved week. */
   changed: boolean;
+  /** Moved by the last saved change: the one live thing on the board. */
+  moved?: boolean;
+  /** A draft is open. Its moves are previews, so they never hop. */
+  drafting?: boolean;
   moveOptions: MoveOption[];
   onMove: (target: Placement) => void;
   /** Block this session's day or half-day for this week. Absent when not offered. */
@@ -34,6 +44,10 @@ export function SessionChip({
     id: session.id,
     disabled: !draggable,
   });
+  // Draft chips take a different key, so a preview move never reads as a hop.
+  const flip = useFlip<HTMLDivElement>(
+    drafting ? `draft:${session.id}` : session.id,
+  );
   const status =
     session.status === "COMPLETED"
       ? "Done"
@@ -46,7 +60,10 @@ export function SessionChip({
     // dnd-kit drives `transform` inline; the lift uses the separate `scale` property and
     // box-shadow, so it eases in and out without fighting the drag.
     <div
-      ref={setNodeRef}
+      ref={(el) => {
+        setNodeRef(el);
+        flip.current = el;
+      }}
       style={
         transform
           ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
@@ -57,13 +74,19 @@ export function SessionChip({
         session.locked
           ? "border-border-subtle bg-surface"
           : "bg-surface-raised shadow-card hover:shadow-card-hover",
-        changed ? "border-accent/50 ring-1 ring-accent/40" : session.locked ? "" : "border-border",
+        changed
+          ? "border-dashed border-border-strong"
+          : moved
+            ? "border-accent ring-[3px] ring-accent/15"
+            : session.locked
+              ? ""
+              : "border-border",
         isDragging ? "z-20 scale-[1.03] shadow-pop" : "",
       ]
         .filter(Boolean)
         .join(" ")}
     >
-      <div className="animate-rise p-3">
+      <div className="p-3">
         <div
           {...(draggable ? listeners : {})}
           className={
@@ -98,6 +121,10 @@ export function SessionChip({
               </span>
             ) : null}
             {changed ? (
+              <span className="rounded-pill bg-sunken px-2 py-px text-[12px] font-medium text-fg-soft">
+                Not saved
+              </span>
+            ) : moved ? (
               <span className="rounded-pill bg-selection px-2 py-px text-[12px] font-medium text-accent">
                 Moved
               </span>

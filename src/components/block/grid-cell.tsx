@@ -11,7 +11,7 @@ export function GridCell({
   cell: MuscleWeekCell;
 }) {
   const zone = zoneFor(cell.plannedSets, cell);
-  const tooltip = `${cell.plannedSets} sets — ${zone} · MEV ${cell.mev} / MAV ${cell.mav} / MRV ${cell.mrv}`;
+  const tooltip = `${cell.plannedSets} sets, ${zone} · MEV ${cell.mev} / MAV ${cell.mav} / MRV ${cell.mrv}`;
   return (
     <Link
       href={`/app/block/week/${week.index}`}

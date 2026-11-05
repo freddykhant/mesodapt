@@ -1,9 +1,10 @@
 "use client";
 
 import { Info } from "lucide-react";
-import { Button, Panel } from "~/components/ui-kit/app-shell-kit";
+import { Button } from "~/components/ui-kit/app-shell-kit";
 
-/** Shown while the athlete has unconfirmed moves. Nothing is saved until Confirm. */
+/** Shown while the athlete has unconfirmed moves. Nothing is saved until Confirm. It floats
+ * over the board (the board's dock places it), so the week never shifts when it appears. */
 export function DraftBar({
   changeCount,
   warnings,
@@ -27,9 +28,8 @@ export function DraftBar({
   error: string | null;
 }) {
   return (
-    <Panel
-      padding="sm"
-      className="animate-rise flex flex-col gap-3"
+    <div
+      className="animate-rise flex flex-col gap-3 rounded-card border border-border bg-surface-raised p-4 shadow-pop"
       role="region"
       aria-label="Unsaved schedule changes"
     >
@@ -47,7 +47,7 @@ export function DraftBar({
             Discard
           </Button>
           <Button
-            variant="primary"
+            variant="accent"
             size="sm"
             onClick={onConfirm}
             disabled={pending || stale}
@@ -58,7 +58,7 @@ export function DraftBar({
       </div>
       {stale ? (
         <p className="flex gap-2 rounded-control bg-callout px-3 py-2 text-card-desc text-fg-soft">
-          <Info className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
+          <Info className="mt-0.5 size-4 shrink-0 text-fg-muted" aria-hidden />
           This week changed somewhere else. Discard to see the latest.
         </p>
       ) : null}
@@ -79,7 +79,7 @@ export function DraftBar({
           checked={carryForward}
           onChange={(e) => onCarryForward(e.target.checked)}
           disabled={pending}
-          className="size-4 accent-accent"
+          className="size-4 accent-ink"
         />
         Use this layout for the remaining weeks
       </label>
@@ -88,6 +88,6 @@ export function DraftBar({
           {error}
         </p>
       ) : null}
-    </Panel>
+    </div>
   );
 }

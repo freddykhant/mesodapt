@@ -5,7 +5,8 @@ import { api } from "~/trpc/react";
 import { Button, Panel } from "~/components/ui-kit/app-shell-kit";
 
 /** End-of-week entry point. Renders only when the week is resolved and no terminal
- * progression decision exists yet. Accent CTA (scarce). `onOpen` is supplied by
+ * progression decision exists yet. Primary (sky) CTA: pink is kept for the proposal's
+ * accept and the schedule's live marks on the same page. `onOpen` is supplied by
  * WeeklyCheckInFlow, which mounts this as its internal trigger. */
 export function WeeklyCheckInEntry({ weekIndex, onOpen }: { weekIndex: number; onOpen: () => void }) {
   const q = api.checkin.getWeeklyCheckIn.useQuery({ weekIndex });
@@ -26,14 +27,14 @@ export function WeeklyCheckInEntry({ weekIndex, onOpen }: { weekIndex: number; o
   return (
     <Panel padding="lg" className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
       <div className="min-w-0">
-        <div className="text-card-title text-fg">Week {weekIndex} wrapped — how’d it land?</div>
+        <div className="text-card-title text-fg tabular-nums">Week {weekIndex} is done. How did it feel?</div>
         <p className="mt-1 text-card-desc text-fg-muted">
           {submitted
-            ? "Your proposal for next week is ready."
-            : "A quick read on recovery and joints sets up next week’s volume."}
+            ? "Next week’s proposal is ready. Nothing changes until you accept it."
+            : "Rate recovery and joints for each muscle you trained. Next week’s sets are worked out from it."}
         </p>
       </div>
-      <Button variant="accent" onClick={onOpen}>
+      <Button variant="primary" onClick={onOpen}>
         {submitted ? "See proposal" : "Check in"}
       </Button>
     </Panel>

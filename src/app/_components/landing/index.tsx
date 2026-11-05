@@ -1,5 +1,5 @@
+import { ClosingCta } from "./closing-cta";
 import { Engine } from "./engine";
-import { Letter } from "./letter";
 import { OrbitHero } from "./orbit-hero";
 import { SiteFooter } from "./site-footer";
 import { Story } from "./story";
@@ -16,7 +16,7 @@ export function Landing() {
         <Story />
         <WeekDiary />
         <Engine />
-        <Letter />
+        <ClosingCta />
       </main>
       <SiteFooter />
     </div>

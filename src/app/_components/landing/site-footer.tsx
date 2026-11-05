@@ -31,8 +31,9 @@ export function SiteFooter() {
           <Column title="Product">
             <FooterLink href="/#story">How it adapts</FooterLink>
             <FooterLink href="/#week">A normal week</FooterLink>
-            <FooterLink href="/#engine">The engine</FooterLink>
+            <FooterLink href="/#intelligence">How it thinks</FooterLink>
             <FooterLink href="/">Sign in</FooterLink>
+            <FooterLink href="/blog">Blog</FooterLink>
           </Column>
           <Column title="Training">
             <li className="text-card-desc text-on-ink-muted">Hypertrophy blocks</li>

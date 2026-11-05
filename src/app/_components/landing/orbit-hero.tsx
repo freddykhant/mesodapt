@@ -1,8 +1,6 @@
-import { ArrowDown } from "lucide-react";
 import type { CSSProperties } from "react";
 
 import { Mark } from "~/components/ui-kit/app-shell-kit";
-import { SignInButton } from "~/app/_components/auth-buttons";
 import { ORBIT_APPS, type OrbitApp } from "./orbit-apps";
 import { AppTile } from "./orbit-logos";
 

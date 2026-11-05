@@ -5,7 +5,7 @@ import { Wordmark } from "~/components/ui-kit/app-shell-kit";
 import { Container } from "~/app/_components/landing/primitives";
 import { SiteFooter } from "~/app/_components/landing/site-footer";
 
-/** Privacy and terms. Public to everyone, signed in or not, so no session redirect here. */
+/** Privacy, terms and the blog. Public to everyone, signed in or not, so no session redirect here. */
 export default function LegalLayout({ children }: { children: ReactNode }) {
   return (
     <div className="bg-atmosphere flex min-h-screen flex-col">

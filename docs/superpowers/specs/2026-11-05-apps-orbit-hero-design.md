@@ -2,6 +2,15 @@
 
 Date: 2026-11-05 · Branch: `freddy/landing-copy` · Status: approved in chat, pending doc review
 
+## Revision (2026-11-05, after the first build)
+
+The owner cut the scroll effect and everything after it: no pin, no pull-in, no "One place for all of it" swap, no
+Garmin/Strava "Next" docking. The hero is now the apps drifting round the M above the headline, and that's all.
+The app list is now exactly: Garmin, Coros, Strava, Whoop, Hevy, Nike, Google Sheets, Google Calendar, Apple Fitness,
+Apple Health, Samsung Health, Oura, Fitbit, Notion. Everything else (the AI chat tile, Evernote, Peloton) is gone.
+Coros, Whoop, Oura, Samsung Health, Apple Fitness and Apple Health wait in `PENDING_APPS` until an official mark is
+sourced. The sections below on the scroll merge and docking are superseded.
+
 ## Intent
 
 The landing should open on the problem every self-coached athlete recognises: their training lives in five apps glued together by hand. The owner's own setup was Hevy for lifts, progressive overload and volume; Garmin for runs, swims and rides; Strava to keep that data and for the social side; a Google Sheet that everything got exported into; and an AI chat (Claude) fed that sheet for coaching and insights. The export-and-paste loop in the middle was the pain.

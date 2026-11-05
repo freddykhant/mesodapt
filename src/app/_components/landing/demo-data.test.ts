@@ -44,7 +44,7 @@ describe("landing demo data", () => {
     expect(DEMO_CUE.kind).toBe("fuel_between");
     expect(DEMO_CUE.title).toMatch(/^Lower B, then .*run$/);
     expect(DEMO_CUE.line).toMatch(/\d+–\d+ g of carbs (between them|in between the two)/);
-    const src = readFileSync("src/app/_components/landing/vignettes/coach-cue.tsx", "utf8");
+    const src = readFileSync("src/app/_components/landing/feature-grid.tsx", "utf8");
     expect(src).toContain("DEMO_CUE");
     expect(src).not.toMatch(/g\/kg|Two big days/);
   });

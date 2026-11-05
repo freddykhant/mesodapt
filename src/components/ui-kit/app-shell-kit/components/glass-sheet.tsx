@@ -47,21 +47,24 @@ export function GlassSheet({
 }
 
 /** Frosted glass on a `GlassSheet`. `tone="model"` takes the turning prism edge (one per sheet: where the model
- *  worked); `tone="live"` takes the pink edge (the athlete's step). */
+ *  worked); `tone="live"` takes the pink edge (the athlete's step). `flush` drops the padding for cards that lay
+ *  out their own regions edge to edge. */
 export function GlassCard({
   tone = "plain",
   as: Tag = "div",
+  flush = false,
   className,
   children,
 }: {
   tone?: "plain" | "model" | "live";
   as?: "div" | "li" | "article";
+  flush?: boolean;
   className?: string;
   children: ReactNode;
 }) {
   const edge = { plain: "border-ink-border", model: "border-prism", live: "border-accent-on-ink/60" }[tone];
   return (
-    <Tag className={"glass-ink relative rounded-card border p-5 sm:p-6 " + edge + (className ? " " + className : "")}>
+    <Tag className={"glass-ink relative rounded-card border " + (flush ? "" : "p-5 sm:p-6 ") + edge + (className ? " " + className : "")}>
       {children}
     </Tag>
   );

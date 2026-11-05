@@ -1,92 +1,185 @@
-import { Sparkles } from "lucide-react";
+import {
+  BatteryLow,
+  FileText,
+  Hand,
+  HelpCircle,
+  Layers,
+  MessageCircle,
+  Moon,
+  Pause,
+  Repeat,
+  ShieldCheck,
+  Sparkles,
+  TrendingUp,
+  type LucideIcon,
+} from "lucide-react";
+import type { ReactNode } from "react";
 
 import { GlassCard, GlassSheet } from "~/components/ui-kit/app-shell-kit";
+import {
+  ReadsYouDemo,
+  ReasonsDemo,
+  RecoveryDemo,
+  WeighsUpDemo,
+} from "./ai-demos";
 import { Container } from "./primitives";
 
-const STEPS = [
+const CELLS: {
+  id: string;
+  title: ReactNode;
+  body: string;
+  points: [LucideIcon, string][];
+  demo: ReactNode;
+  model?: boolean;
+}[] = [
   {
-    n: "01",
-    label: "You type",
-    body: <span className="text-card-title text-on-ink">&ldquo;can&apos;t make Thursday, work trip&rdquo;</span>,
-  },
-  {
-    n: "02",
-    label: "A small model reads it",
+    id: "ai-reads",
     model: true,
-    body: (
-      <span className="block rounded-control bg-ink-well px-3 py-2.5 text-card-desc text-on-ink tabular-nums">
-        <span className="text-on-ink-subtle">intent</span> block
-        <br />
-        <span className="text-on-ink-subtle">date</span> Thu 13
-        <br />
-        <span className="text-on-ink-subtle">half</span> all day
-      </span>
+    title: (
+      <>
+        Talk to your <Em> new intelligent coach</Em>
+      </>
     ),
+    body: "Mesodapt isn't just a training scheduler and algorithm, you can also ask questions, converse, and check in.",
+    points: [
+      [MessageCircle, "Agentic through your words"],
+      [HelpCircle, "Ask questions, check in, and converse"],
+      [ShieldCheck, "Only sees your week, with no personal data"],
+    ],
+    demo: <ReadsYouDemo />,
   },
   {
-    n: "03",
-    label: "The engine does the maths",
-    body: "It builds three versions of the week and ranks them, from least disruptive to best for recovery.",
+    id: "ai-weighs",
+    title: (
+      <>
+        Weighs up <Em>every way your week could go</Em>
+      </>
+    ),
+    body: "When a session has to move, it builds the options and checks each one for rest between sessions, missed sets and the times you like to train. You see the best one first.",
+    points: [
+      [Layers, "Up to three ways to rearrange your week"],
+      [Moon, "Keeps rest between sessions that hit the same muscles"],
+      [Hand, "Nothing moves until you tap Accept"],
+    ],
+    demo: <WeighsUpDemo />,
   },
   {
-    n: "04",
-    label: "You accept",
-    live: true,
-    body: "Upper B moves to Friday, saved with the reason so you can look it up later.",
+    id: "ai-recovery",
+    title: (
+      <>
+        Learns <Em>how you recover</Em>
+      </>
+    ),
+    body: "Every Sunday you tell it how each muscle feels. It puts that next to what you lifted and plans next week to match, so you push when you're fresh and ease off when you're sore.",
+    points: [
+      [TrendingUp, "Adds sets when you're bouncing back well"],
+      [Pause, "Holds steady while a muscle is still sore"],
+      [BatteryLow, "Suggests an easy week early if you need one"],
+    ],
+    demo: <RecoveryDemo />,
+  },
+  {
+    id: "ai-reasons",
+    title: (
+      <>
+        Every number <Em>comes with a reason</Em>
+      </>
+    ),
+    body: "A rock-solid training and recovery algorithm working with agentic AI creates powerful training plans taking all the guesswork away from you, so you can focus on training.",
+    points: [
+      [FileText, "Every change is saved with its reason"],
+      [Repeat, "Same week in, same plan out"],
+      [Sparkles, "Adaptive for you"],
+    ],
+    demo: <ReasonsDemo />,
   },
 ];
 
+function Em({ children }: { children: ReactNode }) {
+  return <span className="text-accent-on-ink">{children}</span>;
+}
+
 /**
- * "Under the hood": the one dark sheet on the page. A slow prism turns behind heavy frosted glass. The prism edge
- * marks the one step where a language model works; hot pink (step 04) is the athlete's, as everywhere else.
+ * The intelligence sheet: the one dark sheet on the page. A slow prism turns behind heavy frosted glass. Each cell
+ * is a live demo over a blueprint grid, then what it does in plain words. The prism edge marks the one cell where
+ * a language model reads you; hot pink is the athlete's, as everywhere else.
  */
 export function Engine() {
   return (
-    <GlassSheet size="page" id="engine" aria-labelledby="engine-title">
+    <GlassSheet
+      size="page"
+      id="intelligence"
+      aria-labelledby="intelligence-title"
+    >
       <Container className="pt-24 pb-28 sm:pt-28 sm:pb-36">
-        <p className="text-nav font-semibold text-accent-on-ink">Under the hood</p>
-        <h2 id="engine-title" className="mt-3 max-w-[20ch] text-landing-h2 text-balance text-on-ink">
-          A small model reads your message, and a plain old engine does the maths
+        <p className="text-nav text-accent-on-ink flex items-center gap-2 font-semibold">
+          <Sparkles className="text-prism-amber size-4" aria-hidden />
+          Intelligence
+        </p>
+        <h2
+          id="intelligence-title"
+          className="text-landing-h2 text-on-ink mt-3 max-w-[22ch] text-balance"
+        >
+          Text it like a training partner and it plans like a sports scientist
         </h2>
-        <p className="mt-6 max-w-[58ch] text-body text-on-ink-muted sm:text-[17px] sm:leading-[26px]">
-          Language models are good at working out what &ldquo;can&apos;t make Thursday&rdquo; means and bad at
-          arithmetic. So the model only turns your message into a short structured request. From there it&apos;s
-          ordinary code choosing sets, reps and days, and the same inputs always give you the same plan.
+        <p className="text-body text-on-ink-muted mt-6 max-w-[58ch] sm:text-[17px] sm:leading-[26px]">
+          Two kinds of smarts sit behind your week. A language model reads what
+          you type and works out what you mean. A training engine does all the
+          maths, from your sets to your rest days, starting from your own
+          training.
         </p>
 
-        <ol className="relative mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
-          {/* The wire the request travels along, behind the cards. */}
-          <span
-            aria-hidden
-            className="absolute top-[38px] right-[12%] left-[12%] hidden h-px bg-[linear-gradient(90deg,transparent,var(--color-ink-border)_12%,var(--color-prism-violet)_38%,var(--color-pink)_88%,transparent)] lg:block"
-          />
-          {STEPS.map((s) => (
-            <GlassCard key={s.n} as="li" tone={s.model ? "model" : s.live ? "live" : "plain"}>
-              <div className="flex items-center gap-2 text-meta tabular-nums">
+        <ol className="mt-14 grid gap-3 md:grid-cols-2 lg:gap-4">
+          {CELLS.map((c, i) => (
+            <GlassCard
+              key={c.id}
+              as="li"
+              tone={c.model ? "model" : "plain"}
+              flush
+              className="overflow-hidden"
+            >
+              <div className="border-ink-border relative isolate h-[252px] border-b px-5 pt-10 pb-5 sm:px-6">
+                {/* Blueprint grid under the demo, fading out toward the edges. */}
+                <div
+                  aria-hidden
+                  className="absolute inset-0 -z-10 bg-[linear-gradient(var(--color-ink-border)_1px,transparent_1px),linear-gradient(90deg,var(--color-ink-border)_1px,transparent_1px)] [mask-image:radial-gradient(75%_85%_at_50%_50%,#000,transparent)] bg-[size:22px_22px]"
+                />
                 <span
-                  className={
-                    "flex size-[22px] items-center justify-center rounded-full text-[11px] font-semibold " +
-                    (s.live
-                      ? "bg-pink text-on-ink"
-                      : s.model
-                        ? "bg-on-ink text-night"
-                        : "bg-ink-well text-on-ink-muted")
-                  }
+                  aria-hidden
+                  className="text-on-ink-subtle absolute top-3.5 right-5 font-mono text-[11px] tracking-[0.08em] sm:right-6"
                 >
-                  {s.n.slice(1)}
+                  AI · 0{i + 1}
                 </span>
-                <span className={s.live ? "text-accent-on-ink" : "text-on-ink"}>{s.label}</span>
-                {s.model ? <Sparkles className="size-3.5 text-prism-amber" aria-hidden /> : null}
+                <div aria-hidden className="h-full">
+                  {c.demo}
+                </div>
               </div>
-              <div className="mt-3 text-body text-on-ink-muted">{s.body}</div>
+              <div className="p-5 sm:p-6">
+                <h3
+                  id={c.id}
+                  className="text-section text-on-ink text-balance sm:text-[22px] sm:leading-7"
+                >
+                  {c.title}
+                </h3>
+                <p className="text-body text-on-ink-muted mt-2.5">{c.body}</p>
+                <ul className="border-ink-border mt-5 border-t">
+                  {c.points.map(([Icon, text]) => (
+                    <li
+                      key={text}
+                      className="border-ink-border text-card-desc text-on-ink flex items-center gap-3 border-b py-3 last:border-b-0 last:pb-0"
+                    >
+                      <Icon
+                        className="text-accent-on-ink size-4 shrink-0"
+                        aria-hidden
+                      />
+                      {text}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </GlassCard>
           ))}
         </ol>
-
-        <p className="mt-14 max-w-[30ch] text-landing-h3 text-balance text-on-ink">
-          Every number you see came from the engine.{" "}
-          <span className="text-on-ink-subtle">The model has never made one up, because it isn&apos;t allowed to.</span>
-        </p>
       </Container>
     </GlassSheet>
   );

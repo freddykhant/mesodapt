@@ -1,7 +1,7 @@
 import { deriveCues } from "~/engine/cues";
 import { toCueView, type CueView } from "~/views/cues";
 
-// Kept apart from demo-data.ts, which client vignettes import, so the cue engine stays off the client.
+// Kept apart from demo-data.ts, which client components import, so the cue engine stays off the client.
 /**
  * The coach-cue card, built by the app's own cue engine and wording rather than written by hand:
  * Lower B in the morning, a 10k in the evening, an 80 kg athlete at maintenance.

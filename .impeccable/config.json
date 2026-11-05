@@ -1,0 +1,71 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          ".superpowers/brainstorm/20352-1793194849/content/hero-directions.html"
+        ],
+        "createdAt": "2026-10-28T13:42:18.619Z",
+        "reason": "Claude's call: scaled-down throwaway brainstorm mockup, not product UI"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          ".superpowers/brainstorm/20352-1793194849/content/hero-directions.html"
+        ],
+        "createdAt": "2026-10-28T13:42:18.634Z",
+        "reason": "Claude's call: scaled-down throwaway brainstorm mockup, not product UI"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".superpowers/brainstorm/20352-1793194849/content/hero-directions.html"
+        ],
+        "createdAt": "2026-10-28T13:42:28.672Z",
+        "reason": "Claude's call: scaled-down throwaway brainstorm mockup, not product UI"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "/Users/freddykhant/repos/volustack/.superpowers/brainstorm/26711-1793843620/content/placement.html"
+        ],
+        "createdAt": "2026-11-05T01:54:24.878Z",
+        "reason": "Claude: throwaway brainstorm wireframe storyboard, scaled-down mini frames by design, not shipped UI"
+      },
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          "/Users/freddykhant/repos/volustack/.superpowers/brainstorm/26711-1793843620/content/placement.html"
+        ],
+        "createdAt": "2026-11-05T01:54:24.897Z",
+        "reason": "Claude: throwaway brainstorm wireframe storyboard, scaled-down mini frames by design, not shipped UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "/Users/freddykhant/repos/volustack/.superpowers/brainstorm/26711-1793843620/content/placement.html"
+        ],
+        "createdAt": "2026-11-05T01:54:35.348Z",
+        "reason": "Claude: throwaway brainstorm wireframe storyboard, scaled-down mini frames by design, not shipped UI"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          "/Users/freddykhant/repos/volustack/.superpowers/brainstorm/26711-1793843620/content/placement.html"
+        ],
+        "createdAt": "2026-11-05T01:54:35.368Z",
+        "reason": "Claude: throwaway brainstorm wireframe storyboard, scaled-down mini frames by design, not shipped UI"
+      }
+    ]
+  }
+}

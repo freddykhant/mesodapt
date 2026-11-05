@@ -4,7 +4,13 @@ import { Mark } from "~/components/ui-kit/app-shell-kit";
 import { SignInButton } from "~/app/_components/auth-buttons";
 import { Container, LandingSection } from "./primitives";
 
-const TOOLS = ["Block_v7_FINAL.xlsx", "Notes: “legs?? thurs”", "Calendar, moved 3×", "“make me a PPL split”"];
+const TOOLS = [
+  "Hevy: volume per muscle",
+  "Garmin: Sunday long run",
+  "Strava: kudos",
+  "Sheets: export_all_v3",
+  "Claude: “how’s my week looking?”",
+];
 
 /** Why it exists, in the first person, and the one way in. The page's close. */
 export function Letter() {
@@ -13,17 +19,18 @@ export function Letter() {
       <Container className="pt-24 pb-28 sm:pt-32 sm:pb-32">
         <div className="max-w-[640px]">
           <h2 id="letter-title" className="text-landing-h2 text-balance text-fg">
-            I built this because my training lived in four apps
+            I built this because my training lived in five apps
           </h2>
           <div className="mt-8 flex flex-col gap-5 text-body text-fg-soft sm:text-[17px] sm:leading-[28px]">
             <p>
-              A spreadsheet for the block, my notes app for what I&apos;d lifted, my calendar for when, and ChatGPT
-              for the bits I couldn&apos;t be bothered working out. Every missed session meant rewriting the
-              spreadsheet by hand and guessing how much volume to move where.
+              Hevy for my lifts, to keep an eye on progressive overload and how much volume each muscle was getting.
+              My Garmin for runs, swims and rides, with Strava keeping all of it and my mates&apos; kudos. Every week
+              I&apos;d export the lot into one Google Sheet, paste that sheet into Claude and ask how my training was
+              going. When something changed, I did the whole export again.
             </p>
             <p>
-              Mesodapt is the one place I wanted instead. It does hypertrophy blocks today, and running, cycling,
-              Garmin and Strava are what I&apos;m working on next.
+              Mesodapt is the one place I wanted instead. It runs your hypertrophy block today, with the scheduler and
+              the coach box doing the reshuffling, and bringing in Garmin and Strava is what I&apos;m working on next.
             </p>
           </div>
 

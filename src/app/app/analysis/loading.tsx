@@ -16,9 +16,15 @@ export default function AnalysisLoading() {
         <Skeleton className="mt-3 h-4 w-96 max-w-full" />
       </header>
       <Panel padding="lg">
-        <Skeleton className="mb-5 h-4 w-80 max-w-full" />
-        <div className="grid gap-8 lg:grid-cols-[300px_1fr]">
-          <Skeleton className="aspect-[320/220] w-full max-w-[320px] rounded-callout" />
+        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
+          <Skeleton className="h-5 w-48" />
+          <Skeleton className="h-4 w-80 max-w-full" />
+        </div>
+        <div className="mt-6 grid gap-8 lg:grid-cols-[300px_1fr]">
+          <div className="w-full max-w-[320px]">
+            <Skeleton className="aspect-[320/220] w-full rounded-callout" />
+            <Skeleton className="mt-2.5 h-3 w-44" />
+          </div>
           <div className="flex flex-col gap-2.5">
             {Array.from({ length: 10 }).map((_, i) => (
               <div key={i} className="flex items-center gap-3">
@@ -31,10 +37,10 @@ export default function AnalysisLoading() {
         </div>
       </Panel>
       <Panel padding="lg">
-        <Skeleton className="h-3 w-32" />
-        <div className="mt-4 flex h-24 items-end gap-3">
+        <Skeleton className="h-5 w-36" />
+        <div className="mt-5 flex h-24 items-end gap-3">
           {["h-[60%]", "h-[90%]", "h-[75%]", "h-[45%]"].map((h) => (
-            <Skeleton key={h} className={"w-full rounded-t-control " + h} />
+            <Skeleton key={h} className={"w-full rounded-[6px] " + h} />
           ))}
         </div>
       </Panel>

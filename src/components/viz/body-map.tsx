@@ -1,39 +1,64 @@
 import type { MuscleGroup } from "~/schema";
 
-type RegionProps = { muscle: MuscleGroup; fill: string; onHover?: (m: MuscleGroup | null) => void; title: string };
+type RegionProps = {
+  muscle: MuscleGroup;
+  fill: string;
+  stroke: string;
+  active: boolean;
+  onHover?: (m: MuscleGroup | null) => void;
+  title: string;
+};
 
-function Region({ muscle, fill, onHover, title, ...rest }: RegionProps & React.SVGProps<SVGRectElement>) {
+function Region({ muscle, fill, stroke, active, onHover, title, ...rest }: RegionProps & React.SVGProps<SVGRectElement>) {
   return (
     <rect
       {...rest}
       rx={4}
       fill={fill}
-      stroke="var(--color-border-strong)"
-      strokeWidth={1}
+      stroke={active ? "var(--color-fg)" : stroke}
+      strokeWidth={active ? 2 : 1}
+      vectorEffect="non-scaling-stroke"
       onMouseEnter={() => onHover?.(muscle)}
       onMouseLeave={() => onHover?.(null)}
-      className="cursor-pointer transition-[fill] duration-150"
+      className="cursor-pointer transition-[fill,stroke] duration-200 ease-soft"
     >
       <title>{title}</title>
     </rect>
   );
 }
 
-/** Stylized front+back figure. `fillFor` maps a muscle to a CSS color (zone token). */
+/** Stylized front+back figure. `fillFor` maps a muscle to a CSS color (a zone `-soft` token for
+ *  the area); `strokeFor` gives its outline (the full-strength zone, so pale fills still read).
+ *  `active` draws a navy outline on one region; hover never recolours the data. */
 export function BodyMap({
   fillFor,
+  strokeFor,
+  active,
   onHover,
 }: {
   fillFor: (m: MuscleGroup) => string;
+  strokeFor?: (m: MuscleGroup) => string;
+  active?: MuscleGroup | null;
   onHover?: (m: MuscleGroup | null) => void;
 }) {
   const r = (muscle: MuscleGroup, x: number, y: number, w: number, h: number, title: string) => (
-    <Region muscle={muscle} x={x} y={y} width={w} height={h} fill={fillFor(muscle)} onHover={onHover} title={title} />
+    <Region
+      muscle={muscle}
+      x={x}
+      y={y}
+      width={w}
+      height={h}
+      fill={fillFor(muscle)}
+      stroke={strokeFor?.(muscle) ?? "var(--color-border-strong)"}
+      active={active === muscle}
+      onHover={onHover}
+      title={title}
+    />
   );
   return (
     <svg viewBox="0 0 320 220" className="w-full" role="img" aria-label="Muscle volume body map">
       {/* FRONT */}
-      <text x="70" y="14" textAnchor="middle" className="fill-[var(--color-fg-subtle)] text-[10px] font-medium">Front</text>
+      <text x="70" y="14" textAnchor="middle" className="fill-fg-subtle text-[10px] font-medium">Front</text>
       {r("FRONT_DELTS", 44, 40, 52, 12, "Front delts")}
       {r("CHEST", 46, 54, 48, 22, "Chest")}
       {r("BICEPS", 30, 66, 12, 28, "Biceps")}
@@ -41,7 +66,7 @@ export function BodyMap({
       {r("QUADS", 48, 118, 44, 44, "Quads")}
       {r("FOREARMS", 24, 96, 12, 26, "Forearms")}
       {/* BACK */}
-      <text x="250" y="14" textAnchor="middle" className="fill-[var(--color-fg-subtle)] text-[10px] font-medium">Back</text>
+      <text x="250" y="14" textAnchor="middle" className="fill-fg-subtle text-[10px] font-medium">Back</text>
       {r("TRAPS", 226, 38, 48, 14, "Traps")}
       {r("REAR_DELTS", 218, 52, 16, 12, "Rear delts")}
       {r("SIDE_DELTS", 264, 52, 16, 12, "Side delts")}

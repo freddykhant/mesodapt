@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ArrowRight, TriangleAlert } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUp, TriangleAlert } from "lucide-react";
 import { Button } from "~/components/ui-kit/app-shell-kit";
 import type { DeloadProposalView, ProgressionProposalView } from "~/views/types";
 
@@ -16,6 +16,12 @@ const CAUSE_COPY: Record<string, string> = {
 
 function humanMuscle(m: string): string {
   return m.charAt(0) + m.slice(1).toLowerCase().replace(/_/g, " ");
+}
+
+/** "Chest, back and quads". Wording only; the list is the engine's. */
+function humanList(ms: string[]): string {
+  const names = ms.map((m, i) => (i === 0 ? humanMuscle(m) : humanMuscle(m).toLowerCase()));
+  return names.length < 2 ? (names[0] ?? "") : `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
 }
 
 export function ProgressionProposalDialog({
@@ -57,7 +63,7 @@ export function ProgressionProposalDialog({
 
   const SCRIM = "fixed inset-0 z-50 grid place-items-center bg-scrim p-4 backdrop-blur-[2px] animate-fade";
   const SHEET = "w-full max-w-[460px] rounded-sheet bg-surface-raised p-6 shadow-pop outline-none animate-rise";
-  const ROW = "flex items-center justify-between gap-3 rounded-callout bg-sunken px-3.5 py-2.5";
+  const ROW = "flex flex-wrap items-center justify-between gap-x-3 gap-y-0.5 rounded-callout bg-sunken px-3.5 py-2.5";
 
   if (proposal.kind === "DELOAD") {
     return (
@@ -73,17 +79,20 @@ export function ProgressionProposalDialog({
           aria-labelledby="deload-title"
           className={SHEET}
         >
-          <h2 id="deload-title" className="text-card-title text-fg">Time to back off?</h2>
+          <h2 id="deload-title" className="text-card-title text-fg tabular-nums">Deload in Week {proposal.appliesToWeekIndex}?</h2>
           <p className="mt-1.5 text-card-desc text-fg-muted">
-            You&apos;ve been deep in fatigue two weeks running — a deload next week protects your progress.
+            {proposal.fatiguedMuscles.length > 0
+              ? `${humanList(proposal.fatiguedMuscles)} sat at their ceiling and came in under-recovered two weeks running.`
+              : "Several muscles sat at their ceiling and came in under-recovered two weeks running."}{" "}
+            A deload cuts next week to the sets below. Nothing changes until you accept.
           </p>
           <div className="mt-5 flex flex-col gap-1.5">
             {proposal.rows.map((r) => (
               <div key={r.muscle} className={ROW}>
                 <span className="text-list text-fg">{humanMuscle(r.muscle)}</span>
                 <span className="text-nav text-fg-muted tabular-nums">
-                  {r.plannedSets} → {r.deloadedSets}{" "}
-                  <span className="font-medium text-fg">{r.delta}</span>
+                  {r.plannedSets} → <span className="font-medium text-fg">{r.deloadedSets}</span>
+                  <span className="ml-2 text-meta">{r.delta}</span>
                 </span>
               </div>
             ))}
@@ -102,13 +111,17 @@ export function ProgressionProposalDialog({
 
   const informational = proposal.kind !== "CHANGES";
   const title =
-    proposal.kind === "BLOCK_END" ? "Block’s final week" : proposal.kind === "DELOAD_HOLD" ? "Deload ahead" : `Week ${proposal.appliesToWeekIndex} — your next move`;
+    proposal.kind === "BLOCK_END"
+      ? "That was the block’s last week"
+      : proposal.kind === "DELOAD_HOLD"
+        ? `Week ${proposal.appliesToWeekIndex} is your planned deload`
+        : `Proposed changes for Week ${proposal.appliesToWeekIndex}`;
   const subtitle =
     proposal.kind === "BLOCK_END"
-      ? "Nothing to progress into — nice work closing the block."
+      ? "There’s no next week in this block, so there’s nothing to adjust."
       : proposal.kind === "DELOAD_HOLD"
-        ? "Next week is your planned deload — we’re holding volume so you recover."
-        : "Here’s how next week adapts to what you just did — your call.";
+        ? "Its sets stay as planned so you can recover."
+        : "From your check-in and where each muscle sits against its landmarks. Nothing changes until you accept.";
 
   return (
     <div className={SCRIM} onClick={(e) => { if (e.target === e.currentTarget) onReject(); }}>
@@ -117,7 +130,8 @@ export function ProgressionProposalDialog({
         <p id="prog-desc" className="mt-1.5 text-card-desc text-fg-muted">{subtitle}</p>
 
         {proposal.advisory ? (
-          <div role="note" className="mt-4 flex items-start gap-2.5 rounded-callout bg-callout px-3.5 py-3 text-card-desc text-fg-soft">
+          // A sunken well, not the pink callout: the accept below is this sheet's one pink.
+          <div role="note" className="mt-4 flex items-start gap-2.5 rounded-callout border border-border-subtle bg-sunken px-3.5 py-3 text-card-desc text-fg-soft">
             <TriangleAlert className="mt-0.5 size-4 shrink-0 text-fg-muted" aria-hidden />
             <span>{proposal.advisory}</span>
           </div>
@@ -126,25 +140,30 @@ export function ProgressionProposalDialog({
         {!informational ? (
           <div className="mt-5 flex flex-col gap-1.5">
             {proposal.closeCall && proposal.adjustments.length > 0 ? (
-              <p className="mb-1 text-meta text-fg-muted">Some of these were close calls — adjust if they don’t match how you felt.</p>
+              <p className="mb-1 text-meta text-fg-muted">
+                The model that weighs borderline muscles was close to 50/50 on some of these. If one doesn’t match how
+                your week felt, keep the plan as it is.
+              </p>
             ) : null}
             {proposal.adjustments.length === 0 ? (
-              <p className={ROW + " text-card-desc text-fg-muted"}>You’re right on plan — holding volume next week.</p>
+              <p className={ROW + " text-card-desc text-fg-muted"}>No muscle needs a change, so next week stays as planned.</p>
             ) : (
               proposal.adjustments.map((a) => (
                 <div key={a.muscle} className={ROW}>
-                  <div className="flex items-center gap-2 text-nav text-fg tabular-nums">
+                  <div className="flex items-center gap-2 text-nav whitespace-nowrap text-fg tabular-nums">
                     <span className="text-list">{humanMuscle(a.muscle)}</span>
                     <span className="text-fg-muted">{a.plannedSets} → {a.adjustedSets}</span>
-                    <span className="inline-flex items-center gap-1 font-medium">
-                      <span
-                        aria-hidden
-                        className={"size-1.5 rounded-full " + (a.delta > 0 ? "bg-zone-optimal" : a.delta < 0 ? "bg-zone-rest" : "bg-fg-subtle")}
-                      />
+                    {/* Direction as a glyph, not a zone hue: green-for-up would read as "Optimal". */}
+                    <span className="inline-flex items-center gap-0.5 font-medium">
+                      {a.delta > 0 ? (
+                        <ArrowUp className="size-3.5 text-fg-muted" aria-hidden />
+                      ) : a.delta < 0 ? (
+                        <ArrowDown className="size-3.5 text-fg-muted" aria-hidden />
+                      ) : null}
                       {a.delta > 0 ? `+${a.delta}` : a.delta}
                     </span>
                   </div>
-                  <span className="text-right text-meta text-fg-muted">
+                  <span className="text-meta text-fg-muted">
                     {CAUSE_COPY[a.cause] ?? a.cause}{a.swapCandidate ? " · consider a swap" : ""}
                   </span>
                 </div>

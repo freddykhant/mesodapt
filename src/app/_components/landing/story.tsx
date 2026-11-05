@@ -14,11 +14,11 @@ const CAPTIONS = [
   },
   {
     title: "Your session finds Friday, enjoy your date night",
-    body: "Mesodapt looks over the rest of your week for the best place to put it. Friday works: your upper body has had plenty of rest since Monday, and you still get every set in.",
+    body: "Looks like Friday works: your upper body has had adequate rest since Monday, and you still get every set in.",
   },
   {
     title: "You get the final say",
-    body: "The new week shows up for you to check first. Accept it and it's saved along with the reason, so a month from now you'll still know why Upper B was on a Friday. Tap Not now and nothing changes.",
+    body: "Mesodapt proposes the new scheduled session, but nothing changes until you accept. You can also move it back to Thursday if you want.",
   },
   {
     title: "Zoom out and that week is one of six",
@@ -81,7 +81,10 @@ export function Story() {
           }}
           className="flex flex-col justify-center pt-12 pb-10 sm:pt-16 lg:col-start-1 lg:min-h-[calc(100svh-96px)] lg:pt-0 lg:pb-16"
         >
-          <h2 id="story-title" className="text-landing-h3 text-fg max-w-[18ch] text-balance">
+          <h2
+            id="story-title"
+            className="text-landing-h3 text-fg max-w-[18ch] text-balance"
+          >
             Here&apos;s what that looks like in a real week
           </h2>
         </div>

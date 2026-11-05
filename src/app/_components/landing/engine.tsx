@@ -16,7 +16,12 @@ import {
 import type { ReactNode } from "react";
 
 import { GlassCard, GlassSheet } from "~/components/ui-kit/app-shell-kit";
-import { ReadsYouDemo, ReasonsDemo, RecoveryDemo, WeighsUpDemo } from "./ai-demos";
+import {
+  ReadsYouDemo,
+  ReasonsDemo,
+  RecoveryDemo,
+  WeighsUpDemo,
+} from "./ai-demos";
 import { Container } from "./primitives";
 
 const CELLS: {
@@ -32,14 +37,14 @@ const CELLS: {
     model: true,
     title: (
       <>
-        Understands you <Em>the way you text</Em>
+        Talk to your <Em> new intelligent coach</Em>
       </>
     ),
-    body: "Typos, slang and half-finished sentences are fine. A language model works out which day you mean and what changed, and if it can't tell, it asks.",
+    body: "Mesodapt isn't just a training scheduler and algorithm, you can also ask questions, converse, and check in.",
     points: [
-      [MessageCircle, "Works out the day and time from how you put it"],
-      [HelpCircle, "Asks which day when you're vague"],
-      [ShieldCheck, "Only sees your week, with no names or emails"],
+      [MessageCircle, "Agentic through your words"],
+      [HelpCircle, "Ask questions, check in, and converse"],
+      [ShieldCheck, "Only sees your week, never your personal data"],
     ],
     demo: <ReadsYouDemo />,
   },
@@ -80,11 +85,11 @@ const CELLS: {
         Every number <Em>comes with a reason</Em>
       </>
     ),
-    body: "The language model never writes a number. Your sets and your schedule are worked out by the training engine, so the same week always gets the same answer, and every change keeps a note of why.",
+    body: "An extremely robust training and recovery algorithm working with agentic AI creates powerful training plans taking all the guesswork away from you, so you can focus on training.",
     points: [
       [FileText, "Every change is saved with its reason"],
       [Repeat, "Same week in, same plan out"],
-      [Sparkles, "Nothing in your plan is made up by the AI"],
+      [Sparkles, "Adaptive for you"],
     ],
     demo: <ReasonsDemo />,
   },
@@ -101,32 +106,47 @@ function Em({ children }: { children: ReactNode }) {
  */
 export function Engine() {
   return (
-    <GlassSheet size="page" id="intelligence" aria-labelledby="intelligence-title">
+    <GlassSheet
+      size="page"
+      id="intelligence"
+      aria-labelledby="intelligence-title"
+    >
       <Container className="pt-24 pb-28 sm:pt-28 sm:pb-36">
-        <p className="flex items-center gap-2 text-nav font-semibold text-accent-on-ink">
-          <Sparkles className="size-4 text-prism-amber" aria-hidden />
+        <p className="text-nav text-accent-on-ink flex items-center gap-2 font-semibold">
+          <Sparkles className="text-prism-amber size-4" aria-hidden />
           Intelligence
         </p>
-        <h2 id="intelligence-title" className="mt-3 max-w-[22ch] text-landing-h2 text-balance text-on-ink">
+        <h2
+          id="intelligence-title"
+          className="text-landing-h2 text-on-ink mt-3 max-w-[22ch] text-balance"
+        >
           Text it like a training partner and it plans like a sports scientist
         </h2>
-        <p className="mt-6 max-w-[58ch] text-body text-on-ink-muted sm:text-[17px] sm:leading-[26px]">
-          Two kinds of smarts sit behind your week. A language model reads what you type and works out what you mean.
-          A training engine does all the maths, from your sets to your rest days, starting from your own training.
+        <p className="text-body text-on-ink-muted mt-6 max-w-[58ch] sm:text-[17px] sm:leading-[26px]">
+          Two kinds of smarts sit behind your week. A language model reads what
+          you type and works out what you mean. A training engine does all the
+          maths, from your sets to your rest days, starting from your own
+          training.
         </p>
 
         <ol className="mt-14 grid gap-3 md:grid-cols-2 lg:gap-4">
           {CELLS.map((c, i) => (
-            <GlassCard key={c.id} as="li" tone={c.model ? "model" : "plain"} flush className="overflow-hidden">
-              <div className="relative isolate h-[252px] border-b border-ink-border px-5 pt-10 pb-5 sm:px-6">
+            <GlassCard
+              key={c.id}
+              as="li"
+              tone={c.model ? "model" : "plain"}
+              flush
+              className="overflow-hidden"
+            >
+              <div className="border-ink-border relative isolate h-[252px] border-b px-5 pt-10 pb-5 sm:px-6">
                 {/* Blueprint grid under the demo, fading out toward the edges. */}
                 <div
                   aria-hidden
-                  className="absolute inset-0 -z-10 bg-[linear-gradient(var(--color-ink-border)_1px,transparent_1px),linear-gradient(90deg,var(--color-ink-border)_1px,transparent_1px)] bg-[size:22px_22px] [mask-image:radial-gradient(75%_85%_at_50%_50%,#000,transparent)]"
+                  className="absolute inset-0 -z-10 bg-[linear-gradient(var(--color-ink-border)_1px,transparent_1px),linear-gradient(90deg,var(--color-ink-border)_1px,transparent_1px)] [mask-image:radial-gradient(75%_85%_at_50%_50%,#000,transparent)] bg-[size:22px_22px]"
                 />
                 <span
                   aria-hidden
-                  className="absolute top-3.5 right-5 font-mono text-[11px] tracking-[0.08em] text-on-ink-subtle sm:right-6"
+                  className="text-on-ink-subtle absolute top-3.5 right-5 font-mono text-[11px] tracking-[0.08em] sm:right-6"
                 >
                   AI · 0{i + 1}
                 </span>
@@ -135,17 +155,23 @@ export function Engine() {
                 </div>
               </div>
               <div className="p-5 sm:p-6">
-                <h3 id={c.id} className="text-section text-balance text-on-ink sm:text-[22px] sm:leading-7">
+                <h3
+                  id={c.id}
+                  className="text-section text-on-ink text-balance sm:text-[22px] sm:leading-7"
+                >
                   {c.title}
                 </h3>
-                <p className="mt-2.5 text-body text-on-ink-muted">{c.body}</p>
-                <ul className="mt-5 border-t border-ink-border">
+                <p className="text-body text-on-ink-muted mt-2.5">{c.body}</p>
+                <ul className="border-ink-border mt-5 border-t">
                   {c.points.map(([Icon, text]) => (
                     <li
                       key={text}
-                      className="flex items-center gap-3 border-b border-ink-border py-3 text-card-desc text-on-ink last:border-b-0 last:pb-0"
+                      className="border-ink-border text-card-desc text-on-ink flex items-center gap-3 border-b py-3 last:border-b-0 last:pb-0"
                     >
-                      <Icon className="size-4 shrink-0 text-accent-on-ink" aria-hidden />
+                      <Icon
+                        className="text-accent-on-ink size-4 shrink-0"
+                        aria-hidden
+                      />
                       {text}
                     </li>
                   ))}

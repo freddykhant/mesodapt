@@ -8,9 +8,17 @@ import { AppTile } from "./orbit-logos";
 
 // Per ring: its turn, and the tile size and strength. Radii live in CSS vars on the orbit so phones get a tighter
 // orbit (and no outer ring) without a resize listener.
-const RINGS: Record<OrbitApp["ring"], { spin: string; tile: string; opacity: number; phone: boolean }> = {
+const RINGS: Record<
+  OrbitApp["ring"],
+  { spin: string; tile: string; opacity: number; phone: boolean }
+> = {
   0: { spin: "", tile: "size-12 sm:size-14", opacity: 1, phone: true },
-  1: { spin: "[--orbit-dir:reverse] [--orbit-dur:120s]", tile: "size-10 sm:size-11", opacity: 0.85, phone: true },
+  1: {
+    spin: "[--orbit-dir:reverse] [--orbit-dur:120s]",
+    tile: "size-10 sm:size-11",
+    opacity: 0.85,
+    phone: true,
+  },
   2: { spin: "[--orbit-dur:150s]", tile: "size-9", opacity: 0.6, phone: false },
 };
 // The orbit is a tilted ring: everything sits on an ellipse this much shorter than it is wide.
@@ -27,28 +35,23 @@ export function OrbitHero() {
       className="relative flex min-h-[calc(100svh-88px)] flex-col items-center justify-center gap-8 overflow-hidden px-4 pt-6 pb-12 sm:gap-10 [@media(max-height:800px)]:gap-5"
     >
       <p className="sr-only">
-        {NAMES.slice(0, -1).join(", ")} and {NAMES.at(-1)} around the Mesodapt mark.
+        {NAMES.slice(0, -1).join(", ")} and {NAMES.at(-1)} around the Mesodapt
+        mark.
       </p>
       <Orbit />
 
       <div className="flex w-full max-w-[760px] flex-col items-center text-center">
-        <h1 id="hero-title" className="animate-rise text-display text-fg max-w-[22ch] text-balance">
-          Experience a <span className="text-sky">truly intelligent</span> training scheduler like never before
+        <h1
+          id="hero-title"
+          className="animate-rise text-display text-fg max-w-[22ch] text-balance"
+        >
+          Experience a <span className="text-sky">truly intelligent</span>{" "}
+          training scheduler like never before
         </h1>
         <p className="animate-rise text-body text-fg-muted mt-5 max-w-[52ch] text-balance [animation-delay:60ms] sm:text-[17px] sm:leading-[26px]">
-          Work runs late, or a birthday lands on leg day. Tell Mesodapt what came up the way you&apos;d text a mate, and
-          it reworks your week so every session still fits with enough rest in between. Nothing moves until you say yes.
+          All your training in one platform, with an intelligent engine and
+          scheduler that adapts to you.
         </p>
-        <div className="animate-rise mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 [animation-delay:120ms]">
-          <SignInButton />
-          <a
-            href="#step-1"
-            className="rounded-pill text-nav text-fg-muted hover:text-fg inline-flex items-center gap-1.5 transition-colors"
-          >
-            Scroll to see it rescue date night
-            <ArrowDown className="size-4" aria-hidden />
-          </a>
-        </div>
       </div>
     </section>
   );
@@ -68,9 +71,19 @@ function Orbit() {
       <div className="pointer-events-none absolute inset-x-[10%] inset-y-0 -z-10 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-sky)_22%,transparent),transparent)] blur-2xl" />
 
       {([0, 1, 2] as const).map((ring) => (
-        <div key={ring} className={"orbit-spin absolute inset-0 " + RINGS[ring].spin + (RINGS[ring].phone ? "" : " hidden sm:block")}>
+        <div
+          key={ring}
+          className={
+            "orbit-spin absolute inset-0 " +
+            RINGS[ring].spin +
+            (RINGS[ring].phone ? "" : " hidden sm:block")
+          }
+        >
           <span
-            style={{ width: `calc(var(--r${ring}) * 2)`, height: `calc(var(--r${ring}) * 2 * ${TILT})` }}
+            style={{
+              width: `calc(var(--r${ring}) * 2)`,
+              height: `calc(var(--r${ring}) * 2 * ${TILT})`,
+            }}
             className="border-sky/20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[50%] border"
           />
           {ORBIT_APPS.filter((a) => a.ring === ring).map((a) => (

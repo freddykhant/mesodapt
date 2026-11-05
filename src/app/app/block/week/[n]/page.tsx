@@ -24,6 +24,8 @@ export default async function WeekDetail({
   const nearMax = week.cells.filter(
     (c) => zoneFor(c.plannedSets, c) === "max",
   ).length;
+  // One primary per view: only the first session still to log gets the filled "Log session".
+  const nextSlotId = week.sessions.find((s) => s.status === "SCHEDULED")?.slotId;
 
   return (
     <div className="mx-auto w-full max-w-[800px] px-6 pt-10 pb-20 md:px-10">
@@ -57,7 +59,7 @@ export default async function WeekDetail({
         <ScheduleBoard weekIndex={week.index} />
         <div className="grid gap-4 md:grid-cols-2">
           {week.sessions.map((s) => (
-            <SessionPanel key={s.slotId} session={s} />
+            <SessionPanel key={s.slotId} session={s} next={s.slotId === nextSlotId} />
           ))}
         </div>
       </div>

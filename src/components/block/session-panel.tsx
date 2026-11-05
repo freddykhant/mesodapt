@@ -43,7 +43,7 @@ function defaultRows(session: SessionView): SetRow[][] {
   });
 }
 
-export function SessionPanel({ session }: { session: SessionView }) {
+export function SessionPanel({ session, next = true }: { session: SessionView; next?: boolean }) {
   const router = useRouter();
   const draftKey = `mesodapt:log-draft:${session.slotId}`;
   const [editing, setEditing] = useState(false);
@@ -214,7 +214,7 @@ export function SessionPanel({ session }: { session: SessionView }) {
           </ul>
           {session.status === "SCHEDULED" ? (
             <div className="mt-auto flex flex-wrap items-center gap-2 border-t border-border-subtle pt-4">
-              <Button variant="primary" icon={PencilLine} onClick={() => setEditing(true)}>
+              <Button variant={next ? "primary" : "secondary"} icon={PencilLine} onClick={() => setEditing(true)}>
                 Log session
               </Button>
               <Button variant="ghost" icon={CalendarX} onClick={() => setRescheduling(true)}>

@@ -4,14 +4,9 @@ import { Mark } from "~/components/ui-kit/app-shell-kit";
 import { SignInButton } from "~/app/_components/auth-buttons";
 import { Container, LandingSection } from "./primitives";
 
-const TOOLS = [
-  "Hevy: volume per muscle",
-  "Garmin: Sunday long run",
-  "Strava: kudos",
-  "Sheets: export_all_v3",
-  "Claude: “how’s my week looking?”",
-];
-
+// What Mesodapt has replaced gets struck through. Garmin and Strava sit after it, dashed, because they're next.
+const REPLACED = ["Hevy: volume per muscle", "Sheets: export_all_v3", "Claude: “how’s my week looking?”"];
+const NEXT = ["Garmin: Sunday long run", "Strava: kudos"];
 /** Why it exists, in the first person, and the one way in. The page's close. */
 export function Letter() {
   return (
@@ -35,7 +30,7 @@ export function Letter() {
           </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-2">
-            {TOOLS.map((t) => (
+            {REPLACED.map((t) => (
               <s
                 key={t}
                 className="inline-flex h-[32px] items-center rounded-pill bg-sunken px-3 text-card-desc text-fg-subtle"
@@ -50,6 +45,15 @@ export function Letter() {
               </span>
               Mesodapt
             </span>
+            {NEXT.map((t) => (
+              <span
+                key={t}
+                className="inline-flex h-[32px] items-center gap-1.5 rounded-pill border border-dashed border-border-strong px-3 text-card-desc text-fg-muted"
+              >
+                {t}
+                <span className="text-meta font-semibold text-fg-subtle">next</span>
+              </span>
+            ))}
           </div>
 
           <p className="mt-10 text-list text-fg">Freddy</p>

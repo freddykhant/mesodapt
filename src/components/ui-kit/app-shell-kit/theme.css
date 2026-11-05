@@ -288,8 +288,9 @@
   initial-value: 0deg;
 }
 
+/* Speed and direction come in as vars: this rule is unlayered, so it would beat any animation-* utility. */
 .orbit-spin {
-  animation: orbit-spin 90s linear infinite;
+  animation: orbit-spin var(--orbit-dur, 90s) linear infinite var(--orbit-dir, normal);
 }
 
 @keyframes orbit-spin {

@@ -12,8 +12,8 @@ import { DOCK_PULL, ORBIT_APPS, orbitStateAt, type OrbitApp } from "./orbit-scri
 // get a tighter orbit (and no outer ring) without a resize listener.
 const RINGS: Record<OrbitApp["ring"], { spin: string; tile: string; opacity: number; phone: boolean }> = {
   0: { spin: "", tile: "size-12 sm:size-14", opacity: 1, phone: true },
-  1: { spin: "[animation-direction:reverse] [animation-duration:120s]", tile: "size-10 sm:size-11", opacity: 0.85, phone: true },
-  2: { spin: "[animation-duration:150s]", tile: "size-9", opacity: 0.6, phone: false },
+  1: { spin: "[--orbit-dir:reverse] [--orbit-dur:120s]", tile: "size-10 sm:size-11", opacity: 0.85, phone: true },
+  2: { spin: "[--orbit-dur:150s]", tile: "size-9", opacity: 0.6, phone: false },
 };
 // The orbit is a tilted ring: everything sits on an ellipse this much shorter than it is wide.
 const TILT = 0.72;
@@ -57,7 +57,7 @@ export function OrbitHero() {
 
   return (
     <section ref={section} id="orbit" aria-labelledby="hero-title" className="relative h-[170svh] sm:h-[200svh]">
-      <div className="sticky top-0 flex h-svh flex-col items-center justify-center gap-8 overflow-hidden px-4 pb-6 sm:gap-10">
+      <div className="sticky top-0 flex h-svh flex-col items-center justify-center gap-8 overflow-hidden px-4 pb-6 sm:gap-10 [@media(max-height:800px)]:gap-5">
         <p className="sr-only">
           Hevy, Garmin, Strava, Google Sheets and an AI chat, pulled into one app. Garmin and Strava are connecting next.
         </p>
@@ -78,7 +78,11 @@ export function OrbitHero() {
               and it reworks your week so every session still fits with enough rest in between. Nothing moves until you
               say yes.
             </p>
-            <div className="animate-rise mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 [animation-delay:120ms]">
+            {/* Faded out once merged, so it leaves the tab order too; the h1 above stays readable. */}
+            <div
+              inert={s.merged}
+              className="animate-rise mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 [animation-delay:120ms]"
+            >
               <SignInButton />
               <a
                 href="#step-1"
@@ -114,7 +118,11 @@ function Orbit({ pulls, glow }: { pulls: Record<OrbitApp["id"], number>; glow: n
   return (
     <div
       aria-hidden
-      className="relative h-[230px] w-full max-w-[560px] shrink-0 [--r0:96px] [--r1:146px] [--r2:0px] sm:h-[330px] sm:[--r0:128px] sm:[--r1:184px] sm:[--r2:240px]"
+      className={
+        "relative h-[230px] w-full max-w-[560px] shrink-0 [--r0:96px] [--r1:146px] [--r2:0px] sm:h-[330px] sm:[--r0:128px] sm:[--r1:184px] sm:[--r2:240px] " +
+        // Short screens (a 768px laptop, an SE) get a smaller orbit so the CTA still fits under the pin.
+        "[@media(max-height:800px)]:h-[200px] [@media(max-height:800px)]:[--r0:84px] [@media(max-height:800px)]:[--r1:128px] sm:[@media(max-height:800px)]:h-[270px] sm:[@media(max-height:800px)]:[--r0:108px] sm:[@media(max-height:800px)]:[--r1:156px] sm:[@media(max-height:800px)]:[--r2:204px]"
+      }
     >
       {/* A sky glow the orbit floats on. */}
       <div className="pointer-events-none absolute inset-x-[10%] inset-y-0 -z-10 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-sky)_22%,transparent),transparent)] blur-2xl" />

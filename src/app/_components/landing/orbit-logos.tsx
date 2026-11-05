@@ -5,7 +5,7 @@ import type { OrbitAppId } from "./orbit-script";
 
 /** One app in the orbit, as an app-icon squircle: brand colour, white mark. Size it with `className`. */
 export function AppTile({ id, className }: { id: OrbitAppId; className?: string }) {
-  const { fill, path } = ORBIT_LOGOS[id];
+  const { fill, path, wide } = ORBIT_LOGOS[id];
   return (
     <span
       style={{ backgroundColor: fill }}
@@ -15,7 +15,7 @@ export function AppTile({ id, className }: { id: OrbitAppId; className?: string 
       }
     >
       {path ? (
-        <svg viewBox="0 0 24 24" className="size-[55%]" fill="currentColor" aria-hidden>
+        <svg viewBox="0 0 24 24" className={wide ? "size-[86%]" : "size-[55%]"} fill="currentColor" aria-hidden>
           <path d={path} />
         </svg>
       ) : (

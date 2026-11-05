@@ -24,7 +24,7 @@ export function TopBar() {
           <a href="#intelligence" className="hidden text-nav text-fg-muted transition-colors hover:text-fg sm:inline">
             How it thinks
           </a>
-          <SignInButton variant="secondary" size="md" label="Sign in" showIcon={false} />
+          <SignInButton variant="primary" size="md" label="Get started" showIcon={false} />
         </nav>
       </Container>
     </header>

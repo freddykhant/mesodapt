@@ -280,6 +280,24 @@
   }
 }
 
+/* The landing's orbit hero: one inherited angle turns a ring, and each tile places itself on it with cos()/sin(),
+   so tiles drift round the M without spinning themselves. A sanctioned landing exception to the Quiet Motion Rule. */
+@property --orbit-spin {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+.orbit-spin {
+  animation: orbit-spin 90s linear infinite;
+}
+
+@keyframes orbit-spin {
+  to {
+    --orbit-spin: 360deg;
+  }
+}
+
 /* ── Classic: the Luma-era palette (2026-10-20 → 2026-10-31), kept as a scope so an A/B test can put a user
    on it with one class on the app root. Tokens only; structure is the same in both. ── */
 .theme-classic {
@@ -355,7 +373,8 @@
   .skeleton { animation: none; }
   /* Infinite loops must stop outright: the 1ms rule below would make them strobe. */
   .bg-prism,
-  .border-prism::before { animation: none !important; }
+  .border-prism::before,
+  .orbit-spin { animation: none !important; }
   *, *::before, *::after {
     animation-duration: 1ms !important;
     transition-duration: 1ms !important;

@@ -1,10 +1,9 @@
 "use client";
 
-import { ArrowDown, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { Chip, buttonClass } from "~/components/ui-kit/app-shell-kit";
-import { SignInButton } from "~/app/_components/auth-buttons";
 import { Container } from "./primitives";
 import { STORY_MESSAGE, storyStateAt, type StoryState } from "./story-script";
 
@@ -32,7 +31,7 @@ const CAPTIONS = [
 ];
 
 /**
- * The hero and the scroll story in one section. The stage (the week board, later the block) stays pinned while
+ * The scroll story, straight after the orbit hero. A short lead-in sits where the story starts. The stage (the week board, later the block) stays pinned while
  * the captions scroll past, and each caption changes what's on it. Position is read from the captions' boxes on
  * every scroll frame and handed to `storyStateAt`, so scrolling back up plays it backwards. Purely
  * presentational: nothing here talks to the engine.
@@ -74,7 +73,7 @@ export function Story() {
   const active = Math.floor(pos);
 
   return (
-    <section id="story" aria-labelledby="hero-title" className="relative">
+    <section id="story" aria-labelledby="story-title" className="relative">
       <Container className="grid lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.25fr)] lg:gap-x-14">
         <div
           ref={(el) => {
@@ -82,29 +81,9 @@ export function Story() {
           }}
           className="flex flex-col justify-center pt-12 pb-10 sm:pt-16 lg:col-start-1 lg:min-h-[calc(100svh-96px)] lg:pt-0 lg:pb-16"
         >
-          <h1
-            id="hero-title"
-            className="animate-rise text-display text-fg max-w-[18ch] text-balance"
-          >
-            Experience a <span className="text-sky">truly intelligent</span>{" "}
-            training scheduler like never before
-          </h1>
-          <p className="animate-rise text-body text-fg-muted mt-6 max-w-[44ch] [animation-delay:60ms] sm:text-[17px] sm:leading-[26px]">
-            Work runs late, or a birthday lands on leg day. Tell Mesodapt what
-            came up the way you&apos;d text a mate, and it reworks your week so
-            every session still fits with enough rest in between. Nothing moves
-            until you say yes.
-          </p>
-          <div className="animate-rise mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 [animation-delay:120ms]">
-            <SignInButton />
-            <a
-              href="#step-1"
-              className="rounded-pill text-nav text-fg-muted hover:text-fg inline-flex items-center gap-1.5 transition-colors"
-            >
-              Scroll to see it rescue date night
-              <ArrowDown className="size-4" aria-hidden />
-            </a>
-          </div>
+          <h2 id="story-title" className="text-landing-h3 text-fg max-w-[18ch] text-balance">
+            Here&apos;s what that looks like in a real week
+          </h2>
         </div>
 
         {/* The stage. On phones it pins to the top and the captions scroll up underneath it. */}

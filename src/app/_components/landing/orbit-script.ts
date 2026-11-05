@@ -11,9 +11,9 @@ export type OrbitAppId =
   | "sheets"
   | "ai"
   | "notion"
-  | "excel"
+  | "evernote"
   | "calendar"
-  | "googlefit"
+  | "fitbit"
   | "nike"
   | "peloton";
 
@@ -28,9 +28,9 @@ export const ORBIT_APPS: OrbitApp[] = [
   { id: "ai", name: "AI chat", ring: 0, angle: 198 },
   { id: "notion", name: "Notion", ring: 1, angle: -50 },
   { id: "calendar", name: "Google Calendar", ring: 1, angle: 70 },
-  { id: "excel", name: "Excel", ring: 1, angle: 190 },
-  { id: "googlefit", name: "Google Fit", ring: 2, angle: 10 },
-  { id: "nike", name: "Nike Run Club", ring: 2, angle: 130 },
+  { id: "evernote", name: "Evernote", ring: 1, angle: 190 },
+  { id: "fitbit", name: "Fitbit", ring: 2, angle: 10 },
+  { id: "nike", name: "Nike", ring: 2, angle: 130 },
   { id: "peloton", name: "Peloton", ring: 2, angle: 250 },
 ];
 

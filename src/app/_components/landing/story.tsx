@@ -20,18 +20,10 @@ const CAPTIONS = [
     title: "You get the final say",
     body: "Mesodapt proposes the new scheduled session, but nothing changes until you accept. You can also move it back to Thursday if you want.",
   },
-  {
-    title: "Zoom out and that week is one of six",
-    body: "Your training builds a little every week, up to about as much as your body can recover from. Then comes an easy week to recharge, and the next block starts stronger than the last one did.",
-  },
-  {
-    title: "Run a line across the tops",
-    body: "and you've drawn the logo. I wanted the M to be the shape the app spends all its time building for you.",
-  },
 ];
 
 /**
- * The scroll story, straight after the orbit hero. A short lead-in sits where the story starts. The stage (the week board, later the block) stays pinned while
+ * The scroll story, straight after the orbit hero. A short lead-in sits where the story starts. The stage (the week board) stays pinned while
  * the captions scroll past, and each caption changes what's on it. Position is read from the captions' boxes on
  * every scroll frame and handed to `storyStateAt`, so scrolling back up plays it backwards. Purely
  * presentational: nothing here talks to the engine.
@@ -90,13 +82,11 @@ export function Story() {
         </div>
 
         {/* The stage. On phones it pins to the top and the captions scroll up underneath it. */}
-        <div className="bg-canvas sticky top-0 z-10 -mx-4 [mask-image:linear-gradient(to_bottom,#000_calc(100%-24px),transparent)] px-4 pt-3 pb-6 sm:-mx-8 sm:px-8 lg:top-[calc(50svh-230px)] lg:col-start-2 lg:row-start-1 lg:row-end-7 lg:mx-0 lg:self-start lg:bg-transparent lg:[mask-image:none] lg:p-0">
+        <div className="bg-canvas sticky top-0 z-10 -mx-4 [mask-image:linear-gradient(to_bottom,#000_calc(100%-24px),transparent)] px-4 pt-3 pb-6 sm:-mx-8 sm:px-8 lg:top-[calc(50svh-230px)] lg:col-start-2 lg:row-start-1 lg:row-end-5 lg:mx-0 lg:self-start lg:bg-transparent lg:[mask-image:none] lg:p-0">
           <p className="sr-only">
             Demo: you tell Mesodapt you can&apos;t train Thursday because of
             date night, and it proposes moving Upper B to Friday. Nothing
-            changes until you accept. Zoomed out, that week sits in a block
-            whose weekly training climbs, eases off for a week and climbs again,
-            tracing the M in the logo.
+            changes until you accept.
           </p>
           <Stage s={s} />
         </div>
@@ -143,12 +133,11 @@ function Stage({ s }: { s: StoryState }) {
       <div
         className={
           "pointer-events-none absolute right-0 bottom-0 -z-10 hidden size-72 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-pink)_22%,transparent),transparent)] blur-2xl transition-opacity duration-700 lg:block " +
-          (s.moved && !s.zoomed ? "opacity-100" : "opacity-0")
+          (s.moved ? "opacity-100" : "opacity-0")
         }
       />
       <WeekCard s={s} />
       <AcceptCard shown={s.proposed} />
-      <BlockChart shown={s.zoomed} draw={s.draw} />
     </div>
   );
 }
@@ -177,10 +166,7 @@ function WeekCard({ s }: { s: StoryState }) {
   return (
     <div
       className={
-        "rounded-card border-border bg-surface shadow-pop absolute inset-x-0 top-0 border p-3 transition-[opacity,transform,filter] duration-500 ease-[var(--ease-out)] sm:p-4 " +
-        (s.zoomed
-          ? "pointer-events-none -translate-y-4 scale-[0.94] opacity-0 blur-[3px]"
-          : "")
+        "rounded-card border-border bg-surface shadow-pop absolute inset-x-0 top-0 border p-3 sm:p-4"
       }
     >
       <div
@@ -349,103 +335,6 @@ function AcceptCard({ shown }: { shown: boolean }) {
       <div className="mt-3 flex justify-end gap-1.5">
         <span className={buttonClass("ghost", "sm")}>Not now</span>
         <span className={buttonClass("accent", "sm")}>Accept move</span>
-      </div>
-    </div>
-  );
-}
-
-/* ── The block, and the M drawn over it ────────────────────────────────────────────────────────────── */
-
-// The mark's own path, so the line drawn over the bars is the logo exactly. See DESIGN.md → Brand.
-const M_PATH = "M4 19.25V11.75L10 6.75V15.25H14V9.75L20 4.75V19.25";
-const BASE = 19.25;
-// Where the M's top edge sits at x: two climbs on the same slope, with the flat deload notch between.
-const edge = (x: number) =>
-  x <= 10
-    ? 11.75 - (x - 4) * (5 / 6)
-    : x < 14
-      ? 15.25
-      : 9.75 - (x - 14) * (5 / 6);
-const BAR_W = 0.62;
-const CLEAR = 1.0; // room between a bar's top and the line, so the stroke never sits on a bar
-
-const BARS = [
-  ...[5, 6, 7, 8, 9].map((x, i) => ({
-    x,
-    kind: "block" as const,
-    week: i + 1,
-  })),
-  { x: 12, kind: "deload" as const, week: 6 },
-  ...[15, 16, 17, 18, 19].map((x, i) => ({
-    x,
-    kind: "next" as const,
-    week: i + 1,
-  })),
-];
-
-function BlockChart({ shown, draw }: { shown: boolean; draw: number }) {
-  return (
-    <div
-      className={
-        "absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 " +
-        (shown ? "opacity-100" : "pointer-events-none opacity-0")
-      }
-    >
-      <div className="relative aspect-square h-[88%] max-w-full">
-        <svg viewBox="2 3 20 18" className="size-full overflow-visible">
-          {BARS.map((b, i) => {
-            const top = edge(b.x) + CLEAR;
-            const isNow = b.kind === "block" && b.week === 3;
-            return (
-              <rect
-                key={i}
-                x={b.x - BAR_W / 2}
-                y={top}
-                width={BAR_W}
-                height={BASE - top}
-                rx={BAR_W / 2}
-                style={{ transitionDelay: shown ? `${120 + i * 45}ms` : "0ms" }}
-                className={
-                  "origin-bottom transition-transform duration-500 ease-[var(--ease-out)] [transform-box:fill-box] " +
-                  (shown ? "scale-y-100" : "scale-y-0") +
-                  (isNow
-                    ? "fill-accent"
-                    : b.kind === "deload"
-                      ? "fill-zone-rest/35"
-                      : "fill-sky/45")
-                }
-              />
-            );
-          })}
-          <path
-            d={M_PATH}
-            pathLength={1}
-            fill="none"
-            strokeWidth={0.9}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeDasharray="1 1"
-            strokeDashoffset={1 - draw}
-            className="stroke-fg"
-          />
-        </svg>
-        <span
-          className={
-            "rounded-pill bg-selection text-accent absolute -translate-x-1/2 px-2 py-0.5 text-[11px] leading-4 font-semibold whitespace-nowrap transition-opacity duration-300 " +
-            (shown && draw === 0 ? "opacity-100" : "opacity-0")
-          }
-          style={{
-            left: `${((7 - 2) / 20) * 100}%`,
-            top: `${((edge(7) + CLEAR - 3) / 18) * 100 - 9}%`,
-          }}
-        >
-          Week 3
-        </span>
-      </div>
-      <div className="text-meta text-fg-muted grid w-[80%] grid-cols-[6fr_4fr_6fr] text-center tabular-nums">
-        <span>Weeks 1–5</span>
-        <span>Easy week</span>
-        <span>Next block</span>
       </div>
     </div>
   );

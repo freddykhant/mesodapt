@@ -1,0 +1,35 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          ".superpowers/brainstorm/20352-1793194849/content/hero-directions.html"
+        ],
+        "createdAt": "2026-10-28T13:42:18.619Z",
+        "reason": "Claude's call: scaled-down throwaway brainstorm mockup, not product UI"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          ".superpowers/brainstorm/20352-1793194849/content/hero-directions.html"
+        ],
+        "createdAt": "2026-10-28T13:42:18.634Z",
+        "reason": "Claude's call: scaled-down throwaway brainstorm mockup, not product UI"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".superpowers/brainstorm/20352-1793194849/content/hero-directions.html"
+        ],
+        "createdAt": "2026-10-28T13:42:28.672Z",
+        "reason": "Claude's call: scaled-down throwaway brainstorm mockup, not product UI"
+      }
+    ]
+  }
+}

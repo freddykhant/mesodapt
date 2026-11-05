@@ -5,7 +5,7 @@
  * thumb both ways.
  */
 
-export const STORY_MESSAGE = "can't make Thursday, work trip";
+export const STORY_MESSAGE = "can't train thursday, date night";
 export const STORY_STEPS = 6;
 
 export type StoryState = {

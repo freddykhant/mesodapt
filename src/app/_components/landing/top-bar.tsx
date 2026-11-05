@@ -21,8 +21,8 @@ export function TopBar() {
           <a href="#week" className="hidden text-nav text-fg-muted transition-colors hover:text-fg sm:inline">
             A normal week
           </a>
-          <a href="#engine" className="hidden text-nav text-fg-muted transition-colors hover:text-fg sm:inline">
-            The engine
+          <a href="#intelligence" className="hidden text-nav text-fg-muted transition-colors hover:text-fg sm:inline">
+            How it thinks
           </a>
           <SignInButton variant="secondary" size="md" label="Sign in" showIcon={false} />
         </nav>

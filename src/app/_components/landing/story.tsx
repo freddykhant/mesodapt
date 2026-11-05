@@ -10,20 +10,20 @@ import { STORY_MESSAGE, storyStateAt, type StoryState } from "./story-script";
 
 const CAPTIONS = [
   {
-    title: "Thursday falls through",
-    body: "A work trip comes up. You type it into the box at the top of your week, the way you'd text whoever you train with. Spelling and grammar are optional.",
+    title: "Date night lands on a Thursday",
+    body: "Thursday was meant to be Upper B. Type what came up into the box at the top of your week, the way you'd text whoever you train with. Spelling and grammar are optional.",
   },
   {
-    title: "Upper B finds Friday",
-    body: "Mesodapt blocks out Thursday and checks the rest of the week. Friday works: your upper body still gets at least 48 hours between sessions, and chest stays in its optimal range.",
+    title: "Your session finds Friday, enjoy your date night",
+    body: "Mesodapt looks over the rest of your week for the best place to put it. Friday works: your upper body has had plenty of rest since Monday, and you still get every set in.",
   },
   {
     title: "You get the final say",
-    body: "The new week shows up as a proposal. Accept it and the move is saved with its reason, so in a month you can still see why Upper B was on a Friday. Tap Not now and nothing changes.",
+    body: "The new week shows up for you to check first. Accept it and it's saved along with the reason, so a month from now you'll still know why Upper B was on a Friday. Tap Not now and nothing changes.",
   },
   {
     title: "Zoom out and that week is one of six",
-    body: "Each muscle's sets go up a little every week until they get close to what you can recover from. Then the deload cuts them to about half, and the next block starts higher than the last one did.",
+    body: "Your training builds a little every week, up to about as much as your body can recover from. Then comes an easy week to recharge, and the next block starts stronger than the last one did.",
   },
   {
     title: "Run a line across the tops",
@@ -80,12 +80,13 @@ export function Story() {
           }}
           className="flex flex-col justify-center pt-12 pb-10 sm:pt-16 lg:col-start-1 lg:min-h-[calc(100svh-96px)] lg:pt-0 lg:pb-16"
         >
-          <h1 id="hero-title" className="max-w-[16ch] animate-rise text-display text-balance text-fg">
-            Your program, rearranged around <span className="text-sky">the week you&apos;ve got</span>
+          <h1 id="hero-title" className="max-w-[18ch] animate-rise text-display text-balance text-fg">
+            Experience a <span className="text-sky">truly intelligent</span> training scheduler like never before
           </h1>
           <p className="mt-6 max-w-[44ch] animate-rise text-body text-fg-muted [animation-delay:60ms] sm:text-[17px] sm:leading-[26px]">
-            Mesodapt writes your hypertrophy block and keeps it workable when a session falls through. Tell it what
-            changed and it shows you the new week. Nothing moves until you say yes.
+            Work runs late, or a birthday lands on leg day. Tell Mesodapt what came up the way you&apos;d text a mate,
+            and it reworks your week so every session still fits with enough rest in between. Nothing moves until you
+            say yes.
           </p>
           <div className="mt-8 flex animate-rise flex-wrap items-center gap-x-5 gap-y-3 [animation-delay:120ms]">
             <SignInButton />
@@ -93,7 +94,7 @@ export function Story() {
               href="#step-1"
               className="inline-flex items-center gap-1.5 rounded-pill text-nav text-fg-muted transition-colors hover:text-fg"
             >
-              Scroll, and watch Thursday fall through
+              Scroll to see it rescue date night
               <ArrowDown className="size-4" aria-hidden />
             </a>
           </div>
@@ -102,9 +103,10 @@ export function Story() {
         {/* The stage. On phones it pins to the top and the captions scroll up underneath it. */}
         <div className="sticky top-0 z-10 -mx-4 bg-canvas px-4 pt-3 pb-6 [mask-image:linear-gradient(to_bottom,#000_calc(100%-24px),transparent)] sm:-mx-8 sm:px-8 lg:top-[calc(50svh-230px)] lg:col-start-2 lg:row-start-1 lg:row-end-7 lg:mx-0 lg:self-start lg:bg-transparent lg:p-0 lg:[mask-image:none]">
           <p className="sr-only">
-            Demo: you tell Mesodapt you can&apos;t make Thursday, and it proposes moving Upper B to Friday. Nothing
-            changes until you accept. Zoomed out, that week sits in a block whose weekly volume climbs, deloads and
-            climbs again, tracing the M in the logo.
+            Demo: you tell Mesodapt you can&apos;t train Thursday because of date night, and it proposes moving Upper B
+            to Friday. Nothing
+            changes until you accept. Zoomed out, that week sits in a block whose weekly training climbs, eases off for
+            a week and climbs again, tracing the M in the logo.
           </p>
           <Stage s={s} />
         </div>
@@ -237,7 +239,8 @@ function WeekCard({ s }: { s: StoryState }) {
                       (s.busy ? "opacity-100" : "opacity-0")
                     }
                   >
-                    Busy
+                    <span className="md:hidden">Busy</span>
+                    <span className="hidden md:inline">Date night</span>
                   </span>
                 ) : null}
               </div>
@@ -308,8 +311,7 @@ function AcceptCard({ shown }: { shown: boolean }) {
     >
       <div className="text-card-title text-fg">Move Upper B to Friday?</div>
       <p className="mt-1 text-card-desc text-fg-muted">
-        Thursday&apos;s busy. Friday still gives your upper body 48 hours to recover and keeps chest in its optimal
-        range.
+        Thursday&apos;s date night. Friday still gives your upper body plenty of rest, and you keep all 17 sets.
       </p>
       <div className="mt-3 flex justify-end gap-1.5">
         <span className={buttonClass("ghost", "sm")}>Not now</span>
@@ -389,7 +391,7 @@ function BlockChart({ shown, draw }: { shown: boolean; draw: number }) {
       </div>
       <div className="grid w-[80%] grid-cols-[6fr_4fr_6fr] text-center text-meta text-fg-muted tabular-nums">
         <span>Weeks 1–5</span>
-        <span>Deload</span>
+        <span>Easy week</span>
         <span>Next block</span>
       </div>
     </div>

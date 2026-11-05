@@ -38,8 +38,8 @@ export function BlockHeader({ block }: { block: MesocycleView }) {
         </div>
       </div>
       <div className="w-full shrink-0 md:w-[340px]">
-        <div className="mb-2 text-meta text-fg-muted">Planned sets per week</div>
         <VolumeBars
+          label="Planned sets per week"
           weeks={block.weeks.map((w) => ({
             label: w.isDeload ? "DL" : `Wk ${w.index}`,
             sets: w.totalSets,

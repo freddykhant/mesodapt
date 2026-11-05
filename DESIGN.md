@@ -11,7 +11,7 @@ colors:
   press: "rgba(5, 147, 198, 0.12)"
   scrim: "rgba(7, 16, 25, 0.3)"
   selection: "rgba(216, 57, 149, 0.09)"
-  callout: "rgba(216, 57, 149, 0.06)"
+  callout: "rgba(5, 147, 198, 0.08)"
   fg: "#0c1b26"
   fg-soft: "#2f4252"
   fg-muted: "#4f6272"             # ≈6.3:1 on snow
@@ -142,7 +142,7 @@ Work happens on `freddy/ui-pass`. **Phase 1 (foundation) is done:** the root tok
 Use tokens by role (`bg-surface`, `text-fg-muted`). Never write a hex in a component.
 
 - **Ground:** `canvas` (`snow`, `#fcffff`) is the page. `surface` (white at 88%) is cards and panels. `surface-raised` (`#ffffff`) is dialogs, popovers, the active nav row and secondary buttons. `sunken` (sky at 6%) is wells: inputs, segmented tracks, icon chips and grid cells.
-- **States:** `hover` (sky 7%) and `press` (sky 12%) are washes on rows and ghost buttons. `selection` (pink 9%) is the active contextual row. `callout` (pink 6%) is the info banner. `scrim` (night at 30%) sits behind dialogs.
+- **States:** `hover` (sky 7%) and `press` (sky 12%) are washes on rows and ghost buttons. `selection` (pink 9%) is the active contextual row. `callout` (sky 8%, with a sky icon) is the info banner; a notice is never the live thing, so it is never pink. `scrim` (night at 30%) sits behind dialogs.
 - **Ink:** navy text. `fg` for titles and body, `fg-soft` for eyebrows and strong secondary text, `fg-muted` (≈6.3:1) for descriptions, metadata and default icons. `fg-subtle` (≈4.7:1) is for timestamps and chevrons, never for anything critical.
 - **Action:** `ink` / `ink-hover` / `on-ink` make the primary pill. Despite the name, `ink` is sky-strong `#047aa6` (≈4.8:1 under white text). `accent` (`#c92d88`, ≈5:1) and `accent-strong` are the pink live signal. `danger` (`#c4320a`) is for destructive confirm text only.
 - **Brand palette:** `sky` `#0593c6` and `pink` `#d83995` are the raw hues for fills, bars, glows, rings and display-size type. They're ≈3.5:1 and ≈4.3:1 on snow, so never use them for body text; text uses `sky-strong` or `pink-strong`.
@@ -280,22 +280,24 @@ Icons are **Lucide, outlined**: `size-4` in controls, `size-[18px]` in tiles and
 
 All of these come from `~/components/ui-kit/app-shell-kit`.
 
-- **Button / ButtonLink:** `variant` = `primary` (sky pill, one per view), `accent` (pink pill, accept-gate confirm only), `secondary` (white pill with hairline), `ghost` (text) or `danger` (destructive confirm). `size` = `sm` 32px · `md` 36px · `lg` 44px. `icon`, `trailingIcon` and `loading` keep the button's width. `buttonClass()` covers the element that can't be a button.
-- **IconButton:** 32px round, icon only, `aria-label` required.
+- **Button / ButtonLink:** `variant` = `primary` (sky pill, one per view), `accent` (pink pill, accept-gate confirm only), `secondary` (white pill with hairline), `ghost` (text), `glass` (ghost on a `GlassSheet`) or `danger` (destructive confirm). `size` = `sm` 32px · `md` 36px · `lg` 44px. `icon`, `trailingIcon` and `loading` keep the button's width. `buttonClass()` covers the element that can't be a button.
+- **IconButton:** 32px round, icon only, `aria-label` required. `variant="primary"` is the filled sky circle for the one send/go action inside a field (the coach box).
 - **Chip:** 24px pill. `tone` = `neutral`, `accent`, `rest`, `building`, `optimal` or `max`. Zone tones carry a full-strength dot.
 - **Segmented:** a sunken pill track with a raised white thumb. Use it for 2–4 exclusive views, `sm` or `md`.
 - **Panel:** the card surface, with `padding` none/sm/md/lg (0/16/20/24px). `interactive` adds the lift; `as` takes section or article.
 - **Card:** a whole-card link. `filled` is a tile with an icon chip (it goes in a 2-col grid); `ghost` is a list row with a hover wash.
-- **Callout:** an info banner (`bg-callout`, accent icon, `role="note"`), placed directly under PageHeader.
+- **Callout:** an info banner (`bg-callout`, sky icon, `role="note"`). Never pink, because a notice isn't the live thing.
 - **PageHeader:** eyebrow, H1, description and `actions` (one Button or a Segmented). Exactly one per page.
 - **SectionHeading:** the H2 with `mt-10` and an optional "View all →" link.
 - **NavItem / TabStrip / PageToc:** navigation. The active row is `bg-surface-raised shadow-control` (neutral) or `bg-selection text-accent` (contextual), and always carries `aria-current`.
 - **Wordmark:** the sky tile with the M, plus the name. `md` for nav, `lg` for landing.
 - **Mark:** the M alone, in `currentColor`. Reach for `Wordmark` first.
 - **Skeleton:** `<Skeleton className="h-4 w-32" />`.
+- **EmptyState:** the empty-state block (40px aura tile, title, one line, optional action) on a Panel. Use it instead of hand-building one.
+- **Select:** a native `<select>` dressed as a secondary pill with a drawn chevron. Give it a label.
 - **GlassSheet / GlassCard:** the navy glass sheet where the model speaks, and the frosted cards on it. `GlassSheet size` = `panel` (in-app, `rounded-sheet`) or `page` (full-bleed marketing). `GlassCard tone` = `plain`, `model` (the one prism edge) or `live` (pink edge). One sheet per screen.
-- **Spine / SpineItem:** a vertical timeline for history (the move log, weeks, blocks). `lead` is the sky label (a day or time). Pass `aside` for a two-column entry whose words pin while the aside scrolls.
-- **VolumeBars:** weekly volume as bars, with sky for the climb, the rest hue for the deload and pink for `current`. `summary` is the screen-reader text, so write what the chart says.
+- **Spine / SpineItem:** a vertical timeline for history (the move log, weeks, blocks). `lead` is the sky label (a day or time). Pass `aside` for a two-column entry whose words pin while the aside scrolls, and `dense` for short one- or two-line entries.
+- **VolumeBars:** weekly volume as bars, with sky for the climb, the rest hue for the deload and pink for `current`. `summary` is the screen-reader text, so write what the chart says; `label` is an optional visible caption.
 - **useFlip(id):** the hop. Put the returned ref on an element that moves between containers; it slides from its old box to its new one in 700ms. Reduced motion skips it.
 
 ## Component recipes

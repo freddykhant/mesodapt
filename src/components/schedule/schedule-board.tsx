@@ -751,14 +751,13 @@ export function ScheduleBoard({ weekIndex }: { weekIndex: number }) {
         </>
       )}
 
-      {/* Proposals float over the week on a sticky dock: pinned to the bottom of the screen
-          while the board scrolls under them, resting below the last day at the end. Under
-          a dragged chip (z-20), so a drag can still reach the cells it covers. On a phone
-          only the draft bar floats; the taller option cards would hide the whole week. */}
+      {/* Unsaved changes ride a compact save bar pinned to the bottom of the screen, under a
+          dragged chip (z-20) so a drag can still reach the cells it covers. The taller option and
+          suggestion cards sit after the board instead of over it, so they never hide a session,
+          and only one asks at a time: while the week is stranded, the options come first. */}
       <div
         className={
-          "z-10 flex w-full flex-col gap-2 empty:hidden sm:max-w-[420px] sm:self-end " +
-          (draft ? "sticky bottom-4" : "relative sm:sticky sm:bottom-4")
+          "z-10 flex w-full flex-col gap-2 empty:hidden " + (draft ? "sticky bottom-4" : "")
         }
       >
         {draft ? (
@@ -787,11 +786,13 @@ export function ScheduleBoard({ weekIndex }: { weekIndex: number }) {
               onAccept={acceptOption}
               onShow={showOption}
             />
-            <SuggestionCard
-              weekIndex={weekIndex}
-              pending={apply.isPending}
-              onAccept={accept}
-            />
+            {isStranded(data.input) ? null : (
+              <SuggestionCard
+                weekIndex={weekIndex}
+                pending={apply.isPending}
+                onAccept={accept}
+              />
+            )}
           </>
         ) : null}
       </div>

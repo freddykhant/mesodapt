@@ -5,7 +5,7 @@ import { LandmarkBar } from "~/components/viz/landmark-bar";
 import { BodyMap } from "~/components/viz/body-map";
 import { ZoneLegend } from "~/components/viz/zone-legend";
 import { zoneFor } from "~/components/viz/zone";
-import { PageHeader, Panel } from "~/components/ui-kit/app-shell-kit";
+import { PageHeader, Panel, Select } from "~/components/ui-kit/app-shell-kit";
 import type { LandmarkBarDatum, MesocycleView } from "~/views/types";
 import type { MuscleGroup } from "~/schema";
 
@@ -67,18 +67,14 @@ export function AnalysisView({ block }: { block: MesocycleView }) {
         actions={
           <label className="flex items-center gap-2 text-nav text-fg-muted">
             Week
-            <select
-              value={weekIndex}
-              onChange={(e) => setWeekIndex(Number(e.target.value))}
-              className="h-9 rounded-pill border border-border bg-surface-raised px-3 text-nav text-fg tabular-nums shadow-control outline-none transition-colors hover:border-border-strong focus-visible:border-border-strong"
-            >
+            <Select value={weekIndex} onChange={(e) => setWeekIndex(Number(e.target.value))}>
               {block.weeks.map((w) => (
                 <option key={w.index} value={w.index}>
                   {w.isDeload ? "Deload" : `Week ${w.index}`}
                   {w.index === block.currentWeekIndex ? " (this week)" : ""}
                 </option>
               ))}
-            </select>
+            </Select>
           </label>
         }
       />

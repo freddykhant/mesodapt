@@ -15,7 +15,7 @@
   --color-press: rgba(5, 147, 198, 0.12); /* pressed wash */
   --color-scrim: rgba(7, 16, 25, 0.3); /* behind dialogs */
   --color-selection: rgba(216, 57, 149, 0.09); /* active contextual-list row */
-  --color-callout: rgba(216, 57, 149, 0.06); /* info banner fill */
+  --color-callout: rgba(5, 147, 198, 0.08); /* info banner fill: sky, since a notice is never the live thing */
 
   /* ── Ink (text) ────────────────────────────────────────────────────── */
   --color-fg: #0c1b26; /* primary text, titles (navy ink) */

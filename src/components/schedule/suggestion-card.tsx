@@ -26,7 +26,7 @@ export function SuggestionCard({
 
   return (
     <div
-      className="animate-rise flex flex-col gap-3 rounded-card border border-border bg-surface-raised p-4 shadow-pop"
+      className="animate-rise flex flex-col gap-3 rounded-card border border-border bg-surface-raised p-4 shadow-card"
       role="region"
       aria-label="Coach suggestion"
     >

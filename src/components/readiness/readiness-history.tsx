@@ -21,6 +21,7 @@ export function ReadinessHistory({ readiness }: { readiness: ReadinessView }) {
           const state = readinessState(p);
           return (
             <SpineItem
+              dense
               key={p.weekIndex}
               lead={p.weekIndex === readiness.currentWeekIndex ? `Week ${p.weekIndex} · this week` : `Week ${p.weekIndex}`}
             >

@@ -48,7 +48,7 @@ export function ReplacementPanel({
   if (options.length === 0 && stranded && query.isFetching) {
     return (
       <p
-        className="animate-fade self-end rounded-pill border border-border bg-surface-raised px-4 py-2 text-card-desc text-fg-muted shadow-pop"
+        className="animate-fade self-start rounded-pill border border-border bg-surface-raised px-4 py-2 text-card-desc text-fg-muted shadow-control"
         role="status"
       >
         Working out how the week could go…
@@ -61,7 +61,7 @@ export function ReplacementPanel({
 
   return (
     <div
-      className="animate-rise flex flex-col gap-4 rounded-card border border-border bg-surface-raised p-4 shadow-pop"
+      className="animate-rise flex flex-col gap-4 rounded-card border border-border bg-surface-raised p-4 shadow-card"
       role="region"
       aria-label="Ways to re-arrange this week"
     >
@@ -75,7 +75,7 @@ export function ReplacementPanel({
             : "Here are a few ways the week could go."}
         </div>
       </div>
-      <ul className="-mr-1 flex max-h-[min(300px,36vh)] flex-col gap-2 overflow-y-auto pr-1">
+      <ul className="flex flex-col gap-2">
         {options.map((o) => (
           <li
             key={o.id}

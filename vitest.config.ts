@@ -17,6 +17,8 @@ export default defineConfig({
       ...configDefaults.exclude,
       "src/server/judgement/contract.test.ts",
       "src/server/coach/contract.test.ts",
+      // The exercise seed round-trip upserts into the real database. Run it deliberately via `pnpm test:seed`.
+      ...(process.env.RUN_SEED_TEST ? [] : ["prisma/seed/seed.test.ts"]),
     ],
     setupFiles: ["./vitest.setup.ts"],
     // prisma/seed/seed.test.ts is a real integration test: twelve sequential

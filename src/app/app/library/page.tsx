@@ -1,6 +1,5 @@
 import { Library } from "lucide-react";
-import { PageHeader } from "~/components/ui-kit/app-shell-kit";
-import { EmptyState } from "~/components/home/empty-state";
+import { EmptyState, PageHeader } from "~/components/ui-kit/app-shell-kit";
 
 export default function LibraryStub() {
   return (

@@ -16,12 +16,15 @@ export function Spine({ className, children }: { className?: string; children: R
 export function SpineItem({
   lead,
   aside,
+  dense,
   labelledBy,
   className,
   children,
 }: {
   lead: ReactNode;
   aside?: ReactNode;
+  /** Tighter gap for short entries (a line or two each). */
+  dense?: boolean;
   labelledBy?: string;
   className?: string;
   children: ReactNode;
@@ -30,7 +33,8 @@ export function SpineItem({
     <li
       aria-labelledby={labelledBy}
       className={
-        "relative pb-10 pl-8 last:pb-0 " +
+        "relative pl-8 last:pb-0 " +
+        (dense ? "pb-5 " : "pb-10 ") +
         (aside ? "grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 lg:pb-28 lg:pl-10 " : "") +
         (className ?? "")
       }

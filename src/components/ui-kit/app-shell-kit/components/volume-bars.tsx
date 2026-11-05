@@ -5,17 +5,21 @@ export function VolumeBars({
   weeks,
   current,
   summary,
+  label,
   className,
 }: {
   weeks: { label: string; sets: number; deload?: boolean }[];
   /** Index into `weeks` of the week the athlete is in. */
   current?: number;
   summary: string;
+  /** A short visible caption above the bars ("Planned sets per week"). */
+  label?: string;
   className?: string;
 }) {
   const max = Math.max(1, ...weeks.map((w) => w.sets));
   return (
     <figure className={"flex flex-col gap-2" + (className ? " " + className : "")}>
+      {label ? <div aria-hidden className="text-meta text-fg-muted">{label}</div> : null}
       <figcaption className="sr-only">{summary}</figcaption>
       <div aria-hidden className="flex h-28 items-end gap-1.5 sm:gap-2">
         {weeks.map((w, i) => {
@@ -26,7 +30,7 @@ export function VolumeBars({
                 style={{ height: `${Math.max(6, (w.sets / max) * 100)}%`, animationDelay: `${i * 45}ms` }}
                 className={
                   "w-full origin-bottom animate-grow rounded-[6px] " +
-                  (now ? "bg-accent" : w.deload ? "bg-zone-rest-soft" : "bg-sky/45")
+                  (now ? "bg-accent" : w.deload ? "bg-zone-rest/35" : "bg-sky/45")
                 }
               />
             </div>

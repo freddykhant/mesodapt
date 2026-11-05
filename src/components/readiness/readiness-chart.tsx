@@ -2,8 +2,7 @@
 
 import { useState, type PointerEvent } from "react";
 import { LineChart } from "lucide-react";
-import { Panel } from "~/components/ui-kit/app-shell-kit";
-import { EmptyState } from "~/components/home/empty-state";
+import { EmptyState, Panel } from "~/components/ui-kit/app-shell-kit";
 import type { ReadinessPoint, ReadinessView } from "~/views/types";
 
 type Key = "form" | "fitness" | "fatigue";
@@ -59,8 +58,14 @@ export function ReadinessChart({ readiness }: { readiness: ReadinessView }) {
   const x = (i: number) => (xPct(i) / 100) * W;
   const y = (v: number) => PAD_Y + (1 - (v - min) / span) * (H - 2 * PAD_Y);
   const yPct = (v: number) => (y(v) / H) * 100;
-  const line = (key: Key) => pts.map((p, i) => `${x(i)},${y(p[key])}`).join(" ");
+  const line = (key: Key, from = 0, to = pts.length - 1) =>
+    pts
+      .slice(from, to + 1)
+      .map((p, j) => `${x(from + j)},${y(p[key])}`)
+      .join(" ");
   const currentI = pts.findIndex((p) => p.weekIndex === readiness.currentWeekIndex);
+  // Weeks after this one are the engine's projection from the plan, not anything logged: drawn faint and dotted.
+  const split = currentI >= 0 && currentI < pts.length - 1 ? currentI : null;
   const active: number | null = hover ?? (currentI >= 0 ? currentI : null);
   const activePoint: ReadinessPoint | undefined = active !== null ? pts[active] : undefined;
   // Keep the tooltip inside the plot: anchor it left of the crosshair past the midpoint.
@@ -124,19 +129,41 @@ export function ReadinessChart({ readiness }: { readiness: ReadinessView }) {
               />
             ) : null}
             {[...SERIES].reverse().map((s) => (
-              <polyline
-                key={s.key}
-                points={line(s.key)}
-                fill="none"
-                className={s.stroke}
-                strokeWidth={s.width}
-                strokeDasharray={s.dash}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                vectorEffect="non-scaling-stroke"
-              />
+              <g key={s.key}>
+                <polyline
+                  points={split === null ? line(s.key) : line(s.key, 0, split)}
+                  fill="none"
+                  className={s.stroke}
+                  strokeWidth={s.width}
+                  strokeDasharray={s.dash}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  vectorEffect="non-scaling-stroke"
+                />
+                {split === null ? null : (
+                  <polyline
+                    points={line(s.key, split)}
+                    fill="none"
+                    className={s.stroke + " opacity-35"}
+                    strokeWidth={s.width}
+                    strokeDasharray="1 5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                )}
+              </g>
             ))}
           </svg>
+
+          {split === null ? null : (
+            <span
+              className="pointer-events-none absolute -top-4 -translate-x-1/2 text-meta text-fg-subtle"
+              style={{ left: `${(xPct(split) + 100) / 2}%` }}
+            >
+              Projected
+            </span>
+          )}
 
           {hasZero ? (
             <span

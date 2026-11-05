@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 
-type Variant = "primary" | "accent" | "secondary" | "ghost" | "danger";
+type Variant = "primary" | "accent" | "secondary" | "ghost" | "glass" | "danger";
 type Size = "sm" | "md" | "lg";
 
 const VARIANT: Record<Variant, string> = {
@@ -10,6 +10,8 @@ const VARIANT: Record<Variant, string> = {
   accent: "bg-accent text-on-accent hover:bg-accent-strong",
   secondary: "bg-surface-raised text-fg border border-border shadow-control hover:border-border-strong",
   ghost: "text-fg-muted hover:bg-hover hover:text-fg",
+  // The ghost button on the navy glass sheet (GlassSheet).
+  glass: "text-on-ink-muted hover:bg-ink-well hover:text-on-ink",
   danger: "bg-surface-raised text-danger border border-border hover:bg-hover",
 };
 
@@ -63,8 +65,9 @@ function Inner({ icon: Icon, trailingIcon: Trailing, loading, size = "md", child
   );
 }
 
-/** The one button. `primary` = ink pill (one per view, the main action); `accent` = blue pill (accept-gate confirms only);
- *  `secondary` = white pill with hairline; `ghost` = text button; `danger` = destructive confirm. Pills everywhere. */
+/** The one button. `primary` = sky pill (one per view, the main action); `accent` = pink pill (accept-gate confirms only);
+ *  `secondary` = white pill with hairline; `ghost` = text button; `glass` = ghost on the navy glass sheet;
+ *  `danger` = destructive confirm. Pills everywhere. */
 export function Button({
   variant,
   size,
@@ -110,18 +113,23 @@ export function ButtonLink({
   );
 }
 
-/** Square icon-only button (close, more, sign out). Always pass an aria-label. */
+/** Square icon-only button (close, more, sign out). Always pass an aria-label. `variant="primary"` is the filled
+ *  sky circle, for the one send/go action in a field (the coach box). */
 export function IconButton({
   icon: Icon,
+  variant = "ghost",
   className,
   ...rest
-}: { icon: LucideIcon; "aria-label": string } & Omit<ComponentProps<"button">, "children">) {
+}: { icon: LucideIcon; "aria-label": string; variant?: "ghost" | "primary" } & Omit<ComponentProps<"button">, "children">) {
+  const look =
+    variant === "primary" ? "bg-ink text-on-ink hover:bg-ink-hover" : "text-fg-subtle hover:bg-hover hover:text-fg";
   return (
     <button
       type="button"
       {...rest}
       className={
-        "inline-flex size-8 shrink-0 items-center justify-center rounded-pill text-fg-subtle transition-colors hover:bg-hover hover:text-fg disabled:opacity-45" +
+        "inline-flex size-8 shrink-0 items-center justify-center rounded-pill transition-colors disabled:pointer-events-none disabled:opacity-45 " +
+        look +
         (className ? " " + className : "")
       }
     >

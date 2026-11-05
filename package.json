@@ -21,6 +21,7 @@
     "preview": "next build && next start",
     "start": "next start",
     "test": "vitest run",
+    "test:seed": "RUN_SEED_TEST=1 vitest run prisma/seed/seed.test.ts",
     "test:contract": "vitest run --config vitest.contract.config.ts src/server/judgement/contract.test.ts",
     "test:coach-contract": "vitest run --config vitest.contract.config.ts src/server/coach/contract.test.ts",
     "test:watch": "vitest",

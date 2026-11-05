@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { ArrowUp } from "lucide-react";
 import { RescheduleDialog } from "~/components/block/reschedule-dialog";
+import { IconButton } from "~/components/ui-kit/app-shell-kit";
 import { COACH_MAX_TEXT } from "~/schema";
 import { api } from "~/trpc/react";
 import type { CoachFinalReply, CoachReply } from "~/views/coach";
@@ -127,14 +128,13 @@ export function CoachBox({
           autoComplete="off"
           className="h-9 min-w-0 flex-1 bg-transparent text-body text-fg outline-none placeholder:text-fg-subtle"
         />
-        <button
+        <IconButton
           type="submit"
+          variant="primary"
+          icon={ArrowUp}
           aria-label={interpret.isPending ? "Thinking…" : "Send"}
           disabled={pending || text.trim() === ""}
-          className="flex size-8 shrink-0 items-center justify-center rounded-pill bg-ink text-on-ink transition-[background-color,opacity] hover:bg-ink-hover disabled:pointer-events-none disabled:opacity-45"
-        >
-          <ArrowUp className="size-4" aria-hidden />
-        </button>
+        />
       </form>
       <div role="status" className="flex flex-col gap-3">
         {interpret.isError ? (

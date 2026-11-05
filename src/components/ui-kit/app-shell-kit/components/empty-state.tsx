@@ -1,9 +1,9 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
-import { Panel } from "~/components/ui-kit/app-shell-kit";
+import { Panel } from "./panel";
 
 /** Empty state on a Panel (DESIGN.md → Loading & empty states): 40px aura tile, one title, one line, an optional action.
- *  Candidate for the kit (shared by Now, Readiness, Coach and Library). */
+ *  Centre this one block only. */
 export function EmptyState({
   icon: Icon,
   title,

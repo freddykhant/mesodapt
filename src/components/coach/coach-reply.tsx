@@ -6,7 +6,6 @@ import type { CoachFinalReply, CoachReply } from "~/views/coach";
 
 // The kit's ghost button is drawn for the light page; on night glass its text and wash
 // come from the on-ink tokens instead.
-const GHOST_ON_GLASS = "text-on-ink-muted! hover:bg-ink-well! hover:text-on-ink!";
 
 function Lines({ lines, muted }: { lines: string[]; muted?: boolean }) {
   return (
@@ -88,9 +87,8 @@ export function CoachReplyCard({
               Confirm
             </Button>
             <Button
-              variant="ghost"
+              variant="glass"
               size="sm"
-              className={GHOST_ON_GLASS}
               disabled={pending}
               onClick={onDismiss}
             >
@@ -113,9 +111,8 @@ export function CoachReplyCard({
               Skip {reply.label}…
             </Button>
             <Button
-              variant="ghost"
+              variant="glass"
               size="sm"
-              className={GHOST_ON_GLASS}
               onClick={onDismiss}
             >
               Cancel
@@ -140,9 +137,9 @@ export function CoachReplyCard({
             ))}
           </div>
           <Button
-            variant="ghost"
+            variant="glass"
             size="sm"
-            className={"self-start " + GHOST_ON_GLASS}
+            className="self-start"
             onClick={onDismiss}
           >
             Never mind
@@ -159,9 +156,9 @@ export function CoachReplyCard({
             <Lines lines={reply.lines} />
           </GlassCard>
           <Button
-            variant="ghost"
+            variant="glass"
             size="sm"
-            className={"self-start " + GHOST_ON_GLASS}
+            className="self-start"
             onClick={onDismiss}
           >
             Dismiss

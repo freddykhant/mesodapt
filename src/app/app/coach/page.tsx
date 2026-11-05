@@ -1,6 +1,5 @@
 import { MessageSquare } from "lucide-react";
-import { ButtonLink, PageHeader } from "~/components/ui-kit/app-shell-kit";
-import { EmptyState } from "~/components/home/empty-state";
+import { ButtonLink, EmptyState, PageHeader } from "~/components/ui-kit/app-shell-kit";
 
 export default function CoachStub() {
   return (
